@@ -1,0 +1,16 @@
+<% include partials/header %>
+
+<h1>This is the homepage</h1>
+
+
+
+<script type="text/javascript">
+  var cityRequest = new XMLHttpRequest();
+  cityRequest.open('GET', 'http://ipinfo.io/json');
+  cityRequest.onload = function(){
+    console.log(JSON.parse(cityRequest.responseText));
+  };
+  cityRequest.send();
+</script>
+
+<% include partials/footer %>
