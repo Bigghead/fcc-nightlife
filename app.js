@@ -9,7 +9,8 @@ var express      = require('express'),
       Session    = require('express-session'),
       app        = express();
 
-
+//SCHEMAS
+var User = require('./models/userSchema.js');
 //DB
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/nightlife');
@@ -33,6 +34,19 @@ app.use(function(req, res, next){
 
   next();
 });
+app.use(Session({
+  secret:'Hello from the other side',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//======PASSPORT=====
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 app.get('/', function(req, res){
