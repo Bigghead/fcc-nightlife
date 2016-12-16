@@ -57,7 +57,7 @@ app.get('/', function(req, res){
 app.post('/home', function(req, res){
   var cityName = req.body.cityName;
   yelp.search({
-    term: 'food',
+    term: 'bar',
     location: cityName
   }, function(err, data){
     if(err){

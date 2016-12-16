@@ -5,6 +5,10 @@ body{
 .landing-container{
   margin: 20% auto;
 }
+
+.city-name{
+  width: 70%;
+}
 .well{
   background: #7FFFD4 ;
 }
