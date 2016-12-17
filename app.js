@@ -11,6 +11,7 @@ var express      = require('express'),
 
 //SCHEMAS
 var User = require('./models/userSchema.js');
+var yelpData = require('./models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/nightlife');
@@ -63,6 +64,17 @@ app.post('/home', function(req, res){
     if(err){
       console.log(err);
     } else {
+      data.businesses.forEach(function(eachYelp){
+        yelpData.create({
+          name: eachYelp.name,
+          yelpID: eachYelp.id
+        }, function(err, savedData){
+          if(err){
+            console.log(err);
+          } else {
+          }
+        });
+      });
         res.render('homepage', {data : data});
     }
   });
