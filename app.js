@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var express      = require('express'),
       mongoose   = require('mongoose'),
       bodyParser = require('body-parser'),
@@ -8,6 +10,8 @@ var express      = require('express'),
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
       app        = express();
+
+var googleKey = process.env.googleKey;
 
 //SCHEMAS
 var User = require('./models/userSchema.js');
