@@ -27,7 +27,9 @@ mongoose.connect(process.env.mongoURL);
 
 //========ROUTE IMPORTS======
 var indexRoute = require('./routes/bars.js');
-var userAuthentication = require('./routes/authentication.js');
+var userAuth = require('./routes/authentication.js');
+var userAction = require('./routes/userRoute.js');
+
 
 
 //Setup
@@ -56,7 +58,8 @@ app.use(function(req, res, next){
   next();
 });
 app.use(indexRoute);
-app.use(userAuthentication);
+app.use(userAuth);
+app.use(userAction);
 
 
 //======PASSPORT=====

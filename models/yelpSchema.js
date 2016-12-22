@@ -2,9 +2,8 @@ var mongoose = require('mongoose');
 
 
 var yelpSchema = new mongoose.Schema({
-  name : String,
   yelpID: String,
-  going:[
+  going : [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

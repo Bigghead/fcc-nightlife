@@ -18,13 +18,21 @@ var googleKey = process.env.googleKey;
 
 
 
-router.get('/', function(req, res){
+router.get('/bars', function(req, res){
   res.render('landing');
 });
 
 
 router.post('/bars', function(req, res){
   var cityName = req.body.cityName;
+
+    //console.log(data);
+    res.redirect('/bars/'+ cityName);
+      //res.render('googleMap', {data : data, googleKey : googleKey});
+});
+
+router.get('/bars/:city', function(req, res){
+  var cityName = req.params.city;
   yelp.search({
     term: 'bar',
     location: cityName
