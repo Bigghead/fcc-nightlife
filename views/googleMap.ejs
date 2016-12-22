@@ -63,41 +63,71 @@
 
       var data = <%- JSON.stringify(data) %>;
       function initMap() {
+        var infowindow = new google.maps.InfoWindow();
+
+        var loc = [];
+        console.log(data);
+        for(var i = 0 ; i < 10; i ++){
+          loc.push(
+            [data.businesses[i].location.coordinate.latitude, data.businesses[i].location.coordinate.longitude, data.businesses[i].name]
+          );
+        }
+        console.log(loc);
+        var locations = loc;
 
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: {lat: <%= data.region.center.latitude %>, lng: <%= data.region.center.longitude %>}
         });
 
+
         // Create an array of alphabetical characters used to label the markers.
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
         // Add some markers to the map.
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
         // The map() method here has nothing to do with the Google Maps API.
-        var markers = locations.map(function(location, i) {
-          return new google.maps.Marker({
-            position: location,
-            label: labels[i % labels.length]
-          });
-        });
+        // var markers = locations.map(function(location, i) {
+        //   return new google.maps.Marker({
+        //     position: location,
+        //     label: labels[i % labels.length]
+        //   });
+        // });
 
         // Add a marker clusterer to manage the markers.
-        var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        // var markerCluster = new MarkerClusterer(map, markers,
+        //     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
+        //   );
+        function placeMarker( loc ) {
+  var latLng = new google.maps.LatLng( loc[0], loc[1]);
+  var marker = new google.maps.Marker({
+    position : latLng,
+    map      : map
+  });
+  google.maps.event.addListener(marker, 'click', function(){
+      infowindow.close(); // Close previously opened infowindow
+      infowindow.setContent( "<div id='infowindow'>"+ loc[2] +"</div>");
+      infowindow.open(map, marker);
+  });
+}
+
+// ITERATE ALL LOCATIONS
+// Don't create functions inside for loops
+// therefore refer to a previously created function
+// and pass your iterating location as argument value:
+for(var i=0; i<locations.length; i++) {
+  placeMarker( locations[i] );
+}
+
+google.maps.event.addDomListener(window, 'load', initMap);
+
+
       }
 
-      var loc = [];
-      console.log(data);
-      for(var i = 0 ; i < 10; i ++){
-        loc.push(
-          {
-           lat: data.businesses[i].location.coordinate.latitude, lng: data.businesses[i].location.coordinate.longitude
-         });
-      }
-      console.log(loc);
-      var locations = loc;
+
+
+
+
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>

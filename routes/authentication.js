@@ -38,7 +38,7 @@ router.get('/bars/login', function(req, res){
   res.render('loginForm');
 });
 
-router.post('bars/login', passport.authenticate('local', {
+router.post('/bars/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/bars/login'
 }));
