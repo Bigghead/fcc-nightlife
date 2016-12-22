@@ -1,10 +1,20 @@
 html, body{
   height: 100%;
   width: 100%;
+  background: steelblue;
 }
 
-.container-fluid{
+.landing-container{
+  margin: 20% auto;
+}
+
+.city-name{
+  width: 70%;
+}
+
+.map-container{
   height: 100%;
+  position: relative;
 }
 #map{
   position: relative;
@@ -12,21 +22,12 @@ html, body{
   width: 100%;
 }
 
-.floating {
-  z-index: 100;
-  position: absolute;
-  margin: auto;
-}
+
 .barList{
 position: absolute;
 top: 5%;
-left: 200px;
+right: 10%;
 z-index: 10;
-}
-
-
-.city-name{
-  width: 70%;
 }
 
 
