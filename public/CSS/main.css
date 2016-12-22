@@ -36,3 +36,12 @@ z-index: 10;
   background: transparent ;
   border: 2px solid black;
 }
+
+.eachYelp{
+  border: 2px solid black;
+}
+
+img{
+  width: 80px;
+  height: 80px;
+}

@@ -21,26 +21,29 @@
             <div class="modal-body">
               <% for(var i = 0 ; i < 10; i++){ %>
                   <div class='well container-fluid'>
-                  <div class='row'>
-                    <div class='col-lg-2 image-container'>
-                      <img src=<%=data.businesses[i].image_url%>>
-                    </div>
-
-                    <div class='col-lg-10'>
                     <div class='row'>
-                      <div class='col-lg-3'>
-                      <h4 >
-                        <a href=<%= data.businesses[i].url %>><%= data.businesses[i].name %></a>
-                      </h4>
+                      <div class='col-lg-2'>
+                          <img src=<%=data.businesses[i].image_url%>>
+                      </div>
+
+                      <div class='col-lg-10'>
+                        <div class='row'>
+                          <div class='col-lg-5'>
+                           <h4 >
+                            <a href=<%= data.businesses[i].url %>><%= data.businesses[i].name %></a>
+                           </h4>
+                          </div>
+
+                          <div class='col-lg-4 col-lg-offset-3'>
+                            <button class='btn btn-primary'>0 Going</button>
+                          </div>
                         </div>
-                        <div class='col-lg-3 col-lg-offset-6'>
-                          <button class='btn btn-primary'>0 Going</button>
+                        <div>
+                        <p style=''>"<%= data.businesses[i].snippet_text %>"</p>
                         </div>
-                    </div>
-                        <p>"<%= data.businesses[i].snippet_text %>"</p>
+                      </div>
                     </div>
                   </div>
-                    </div>
                 <%}  %>
               ...
             </div>
