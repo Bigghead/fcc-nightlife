@@ -1,5 +1,8 @@
 <% include partials/header %>
 
+<% console.log('Hello: ' + data); %>
+<% console.log(data.region); %>
+
 <h1 class='text-center'>This is the homepage</h1>
 
 <div class="container text-center">
@@ -34,6 +37,10 @@
 <script type="text/javascript">
   data = <%- JSON.stringify(data) %>;
   console.log(data);
+
+  data.businesses.forEach(function(business){
+    console.log(business.location.coordinate);
+  });
 
 </script>
 
