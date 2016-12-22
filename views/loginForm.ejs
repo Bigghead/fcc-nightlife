@@ -1,0 +1,19 @@
+<% include partials/header %>
+
+<div class="container">
+  <h1 class='text-center'>Log In</h1>
+  <form action='/bars/login' method='post'>
+  <div class="form-group">
+    <label>User Name:</label>
+    <input type="text" class="form-control" name='username'placeholder="Enter Name">
+  </div>
+  <div class="form-group">
+    <label>Password:</label>
+    <input type="password" class="form-control" name='password'placeholder="Enter Password">
+  </div>
+
+  <button type="submit" class='btn btn-block btn-info'>Log in</button>
+</form>
+</div>
+
+<% include partials/footer %>

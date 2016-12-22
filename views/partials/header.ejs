@@ -29,8 +29,13 @@
       <%# Burger DropDown%>
       <div class="collapse navbar-collapse" id='bs-example-navbar-collapse-1'>
         <ul class='nav navbar-nav navbar-right'>
-          <li><a href="/bars/register">Register</a></li>
-          <li><a href="/login">Login</a></li>
+          <% if(!currentUser){ %>
+            <li><a href="/bars/register">Register</a></li>
+            <li><a href="/bars/login">Login</a></li>
+          <%  } else { %>
+            <li><a href="#a"><%= currentUser.username %></a></li>
+            <li><a href="/bars/logout"><%= currentUser.username %></a></li>
+        <%  } %>
         </ul>
       </div>
     </div>

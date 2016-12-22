@@ -51,6 +51,10 @@ app.use(passport.session());
 
 
 //=======TELL EXPRESS TO USE ROUTES=====
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+});
 app.use(indexRoute);
 app.use(userAuthentication);
 
