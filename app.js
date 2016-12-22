@@ -18,7 +18,7 @@ var User = require('./models/userSchema.js');
 var yelpData = require('./models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/nightlife');
+mongoose.connect(process.env.mongoURL);
 
 
 //=====YELP====
@@ -27,6 +27,7 @@ mongoose.connect('mongodb://localhost/nightlife');
 
 //========ROUTE IMPORTS======
 var indexRoute = require('./routes/bars.js');
+var userAuthentication = require('./routes/authentication.js');
 
 
 //Setup
@@ -51,6 +52,7 @@ app.use(passport.session());
 
 //=======TELL EXPRESS TO USE ROUTES=====
 app.use(indexRoute);
+app.use(userAuthentication);
 
 
 //======PASSPORT=====

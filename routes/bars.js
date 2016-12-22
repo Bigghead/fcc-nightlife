@@ -23,7 +23,7 @@ router.get('/', function(req, res){
 });
 
 
-router.post('/home', function(req, res){
+router.post('/bars', function(req, res){
   var cityName = req.body.cityName;
   yelp.search({
     term: 'bar',
@@ -32,20 +32,8 @@ router.post('/home', function(req, res){
     if(err){
       console.log(err);
     } else {
-      data.businesses.forEach(function(eachYelp){
-        yelpData.create({
-          name: eachYelp.name,
-          yelpID: eachYelp.id
-        }, function(err, savedData){
-          if(err){
-            console.log(err);
-          } else {
-
-          }
-        });
-      });
-      //console.log(data);
-        res.render('googleMap', {data : data, googleKey : googleKey});
+    //console.log(data);
+      res.render('googleMap', {data : data, googleKey : googleKey});
     }
   });
 });

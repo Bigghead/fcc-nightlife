@@ -4,6 +4,11 @@ html, body{
   background: steelblue;
 }
 
+form{
+  width: 70%;
+  margin: auto;
+}
+
 .landing-container{
   margin: 20% auto;
 }

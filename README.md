@@ -1,7 +1,7 @@
 # fcc-nightlife
 
 
-User Story: As an unauthenticated user, I can view all bars in my area.
+[X]User Story: As an unauthenticated user, I can view all bars in my area.
 
 User Story: As an authenticated user, I can add myself to a bar to indicate I am going there tonight.
 
