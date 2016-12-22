@@ -63,13 +63,14 @@
 
       var data = <%- JSON.stringify(data) %>;
       function initMap() {
+        var labels = ['A', 'B', 'C', 'D' , 'E', 'F', 'G', 'H', 'I', 'J'];
+        console.log(labels)
         var infowindow = new google.maps.InfoWindow();
-
         var loc = [];
         console.log(data);
         for(var i = 0 ; i < 10; i ++){
           loc.push(
-            [data.businesses[i].location.coordinate.latitude, data.businesses[i].location.coordinate.longitude, data.businesses[i].name]
+            [data.businesses[i].location.coordinate.latitude, data.businesses[i].location.coordinate.longitude, data.businesses[i].name, labels[i]]
           );
         }
         console.log(loc);
@@ -82,7 +83,6 @@
 
 
         // Create an array of alphabetical characters used to label the markers.
-        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         // Add some markers to the map.
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
@@ -102,7 +102,8 @@
   var latLng = new google.maps.LatLng( loc[0], loc[1]);
   var marker = new google.maps.Marker({
     position : latLng,
-    map      : map
+    map      : map,
+    label    : loc[3]
   });
   google.maps.event.addListener(marker, 'click', function(){
       infowindow.close(); // Close previously opened infowindow
