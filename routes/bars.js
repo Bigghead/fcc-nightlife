@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
     Yelp    = require('yelp'),
     yelpData = require('../models/yelpSchema.js'),
     Async    = require('async'),
+    forEach = require('async-foreach').forEach,
     router  = express.Router();
 
 var yelp = new Yelp({
@@ -46,30 +47,27 @@ router.get('/bars/:city', function(req, res){
       //loop through each yelp result, and check if we have
       //that in the database
 
-      Async.each(data.businesses,
-            function(item, callback){
-              yelpData.findOne({yelpID: item.id}, function(err, foundYelp){
-                if(err){
-                  console.log(err);
-                } else {
-                  if(foundYelp === null){
-                    item.whosGoing = [];
-                  } else {
-                    console.log(foundYelp);
-                    item.whosGoing = foundYelp.going;
-                    console.log('Run');
-                  }
-                }
-              });
-              callback();
-            },
-          function(){
-            console.log('Running');
+      yelpData.find({}, function(err, bars){
+        if(err){
+          console.log(err);
+        } else {
+          console.log(bars);
+          bars.forEach(function(bar){
+            data.businesses.forEach(function(business){
+              if(bar.yelpID === business.id){
+                console.log(business.name + business.rating);
+                business.whosGoing = bar.going;
+              } else{
+                business.whosGoing = [];
+              }
+            });
           });
-      console.log('hello');
+        }
+        console.log(data.businesses[0], data.businesses[1]);
+        res.render('googleMap', {data : data, googleKey : googleKey});
 
-
-      res.render('googleMap', {data : data, googleKey : googleKey});
+      });
+      //res.render('googleMap', {data : data, googleKey : googleKey});
 
     }
   });

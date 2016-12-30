@@ -1,6 +1,5 @@
 <% include partials/header %>
 
-
 <div class="container-fluid map-container">
       <div id="map"></div>
       <%# Button Modal Trigger %>
@@ -67,16 +66,16 @@
       var data = <%- JSON.stringify(data) %>;
       function initMap() {
         var labels = ['A', 'B', 'C', 'D' , 'E', 'F', 'G', 'H', 'I', 'J'];
-        console.log(labels)
+
         var infowindow = new google.maps.InfoWindow();
         var loc = [];
-        console.log(data);
+
         for(var i = 0 ; i < 10; i ++){
           loc.push(
             [data.businesses[i].location.coordinate.latitude, data.businesses[i].location.coordinate.longitude, data.businesses[i].name, labels[i]]
           );
         }
-        console.log(loc);
+
         var locations = loc;
 
         var map = new google.maps.Map(document.getElementById('map'), {
