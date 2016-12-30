@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 router.get('/bars/user/:city/:barID', function(req, res){
   yelpData.create({
     yelpID: req.params.barID,
-    going : req.user._is
+    going : req.user._id
   }, function(err, savedYelp){
     if(err){
       console.log(err);

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Bigghead/fcc-nightlife#readme",
   "dependencies": {
+    "async": "^2.1.4",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "dotenv": "^2.0.0",

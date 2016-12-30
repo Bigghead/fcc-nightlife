@@ -11,6 +11,6 @@ var yelpSchema = new mongoose.Schema({
   ]
 });
 
-var yelpData = mongoose.model('yelpdata', yelpSchema);
+var yelpData = mongoose.model('Yelpdata', yelpSchema);
 
 module.exports = yelpData;
