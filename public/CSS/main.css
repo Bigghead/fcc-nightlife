@@ -46,7 +46,6 @@ z-index: 10;
   border: 2px solid black;
 }
 
-img{
-  width: 80px;
-  height: 80px;
+.img-fluid{
+  max-width: 100%;
 }

@@ -22,7 +22,7 @@
                   <div class='well container-fluid'>
                     <div class='row'>
                       <div class='col-lg-2'>
-                          <img src=<%=data.businesses[i].image_url%>>
+                          <img class='img-fluid'src=<%=data.businesses[i].image_url%>>
                       </div>
 
                       <div class='col-lg-10'>
@@ -37,7 +37,9 @@
                             <button class='btn btn-primary disabled'><%= data.businesses[i].whosGoing.length %> Going</button>
                             <% if(currentUser && data.businesses[i].whosGoing.indexOf(currentUser.id) === -1){ %>
                               <a href='/bars/user/<%= data.businesses[i].location.city %>/<%= data.businesses[i].id %>' class='btn btn-info'>Want To Go?</a>
-                            <%  }  %>
+                            <%  } else {  %>
+                              <a href='#a' class='btn btn-danger'>Cancel</a>
+                            <%  } %>
                           </div>
                         </div>
                         <div>
