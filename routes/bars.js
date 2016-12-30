@@ -63,7 +63,7 @@ router.get('/bars/:city', function(req, res){
             });
           });
         }
-        console.log(data.businesses[0], data.businesses[1]);
+        //console.log(data.businesses);
         res.render('googleMap', {data : data, googleKey : googleKey});
 
       });
