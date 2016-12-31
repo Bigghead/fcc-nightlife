@@ -19,6 +19,16 @@ var googleKey = process.env.googleKey;
 
 
 router.get('/', function(req, res){
+  // yelpData.find({}, function(err, bars){
+  //   if(err){
+  //     console.log(err);
+  //   } else {
+  //     bars.forEach(function(bar){
+  //       //bar.going.push('hi');
+  //       console.log(Array.isArray(bar.going));
+  //     });
+  //   }
+  // });
   res.redirect('/bars');
 });
 
@@ -52,19 +62,34 @@ router.get('/bars/:city', function(req, res){
           console.log(err);
         } else {
           console.log(bars);
-          bars.forEach(function(bar){
-            data.businesses.forEach(function(business){
-              if(bar.yelpID === business.id){
-                console.log(business.name + business.rating);
-                business.whosGoing = bar.going;
-              } else{
-                business.whosGoing = [];
-              }
+          if(bars.length !== 0){
+            bars.forEach(function(bar){
+              data.businesses.forEach(function(business){
+                if(!business.whosGoing){
+                  business.whosGoing = [];
+                }
+                if(bar.yelpID === business.id){
+
+                  business.whosGoing = bar.going;
+                  console.log('True'  + business.name + ' ' + bar.yelpID);
+                  console.log('business: ' + business.whosGoing);
+                } else {
+                  //business.whosGoing = [];
+                  console.log('False'  + business.name + ' ' + bar.yelpID);
+                 }
+              });
             });
-          });
+          } else {
+            data.businesses.forEach(function(business){
+              business.whosGoing = [];
+            });
+          }
         }
-        //console.log(data.businesses);
-        res.render('googleMap', {data : data, googleKey : googleKey});
+        for(var i = 0 ; i < 3; i ++){
+          console.log(data.businesses[i].whosGoing);
+        }
+        console.log('hello');
+        res.render('googleMap', {data : data, bars: bars, googleKey : googleKey});
 
       });
       //res.render('googleMap', {data : data, googleKey : googleKey});

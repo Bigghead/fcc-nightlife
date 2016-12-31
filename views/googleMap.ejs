@@ -1,5 +1,5 @@
 <% include partials/header %>
-<% console.log(data.businesses[0].whosGoing.length); %>
+
 <div class="container-fluid map-container">
       <div id="map"></div>
       <%# Button Modal Trigger %>
@@ -34,10 +34,11 @@
                           </div>
 
                           <div class='col-lg-4 col-lg-offset-3'>
+
                             <button class='btn btn-primary disabled'><%= data.businesses[i].whosGoing.length %> Going</button>
                             <% if(currentUser && data.businesses[i].whosGoing.indexOf(currentUser.id) === -1){ %>
                               <a href='/bars/user/<%= data.businesses[i].location.city %>/<%= data.businesses[i].id %>' class='btn btn-info'>Want To Go?</a>
-                            <%  } else {  %>
+                            <%  } else if (currentUser){  %>
                               <a href='#a' class='btn btn-danger'>Cancel</a>
                             <%  } %>
                           </div>

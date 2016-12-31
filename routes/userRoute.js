@@ -6,16 +6,25 @@ var mongoose = require('mongoose'),
     router  = express.Router();
 
 router.get('/bars/user/:city/:barID', function(req, res){
-  yelpData.create({
-    yelpID: req.params.barID,
-    going : req.user._id
-  }, function(err, savedYelp){
-    if(err){
-      console.log(err);
+  yelpData.findOne({yelpID : req.params.barID}, function(err, foundYelp){
+    if(foundYelp === null){
+      yelpData.create({
+        yelpID: req.params.barID,
+        going: req.user._id
+      }, function(err, savedYelp){
+        if(err){
+          console.log(err);
+        } else {
+          res.redirect('/bars/' + req.params.city);
+        }
+      });
     } else {
+      foundYelp.going.push(req.user._id);
       res.redirect('/bars/' + req.params.city);
+
     }
   });
+
 });
 
 module.exports = router;
