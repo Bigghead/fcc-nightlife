@@ -28,12 +28,17 @@ form{
   width: 100%;
 }
 
+.modal-content{
+  background-color: #94bef1;
+}
+
 
 .barList{
 position: absolute;
 top: 5%;
-right: 10%;
+right: 5%;
 z-index: 10;
+width: 20%;
 }
 
 
