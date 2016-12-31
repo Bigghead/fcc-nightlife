@@ -61,7 +61,7 @@ router.get('/bars/:city', function(req, res){
         if(err){
           console.log(err);
         } else {
-          console.log(bars);
+          //console.log(bars);
           if(bars.length !== 0){
             bars.forEach(function(bar){
               data.businesses.forEach(function(business){
@@ -71,11 +71,11 @@ router.get('/bars/:city', function(req, res){
                 if(bar.yelpID === business.id){
 
                   business.whosGoing = bar.going;
-                  console.log('True'  + business.name + ' ' + bar.yelpID);
+                  //console.log('True'  + business.name + ' ' + bar.yelpID);
                   console.log('business: ' + business.whosGoing);
                 } else {
                   //business.whosGoing = [];
-                  console.log('False'  + business.name + ' ' + bar.yelpID);
+                  //console.log('False'  + business.name + ' ' + bar.yelpID);
                  }
               });
             });
@@ -85,9 +85,9 @@ router.get('/bars/:city', function(req, res){
             });
           }
         }
-        for(var i = 0 ; i < 3; i ++){
-          console.log(data.businesses[i].whosGoing);
-        }
+        // for(var i = 0 ; i < 3; i ++){
+        //   console.log(data.businesses[i].whosGoing);
+        // }
         console.log('hello');
         res.render('googleMap', {data : data, bars: bars, googleKey : googleKey});
 

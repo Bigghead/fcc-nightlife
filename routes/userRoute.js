@@ -19,7 +19,11 @@ router.get('/bars/user/:city/:barID', function(req, res){
         }
       });
     } else {
+      console.log(foundYelp);
+      console.log(req.user);
       foundYelp.going.push(req.user._id);
+      foundYelp.save();
+      console.log(foundYelp);
       res.redirect('/bars/' + req.params.city);
 
     }
