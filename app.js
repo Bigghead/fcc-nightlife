@@ -9,6 +9,7 @@ var express      = require('express'),
       localStrategy = require('passport-local'),
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
+      Method     = require('method-override'),
       app        = express();
 
 var googleKey = process.env.googleKey;
@@ -43,6 +44,8 @@ app.use(function(req, res, next){
 
   next();
 });
+
+app.use(Method('_method'));
 app.use(Session({
   secret:'Hello from the other side',
   resave: false,

@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     User     = require('../models/userSchema.js'),
     router  = express.Router();
 
-router.get('/bars/user/:city/:barID', function(req, res){
+router.post('/bars/user/:city/:barID', isLoggedIn, function(req, res){
   yelpData.findOne({yelpID : req.params.barID}, function(err, foundYelp){
     if(foundYelp === null){
       yelpData.create({
@@ -30,5 +30,14 @@ router.get('/bars/user/:city/:barID', function(req, res){
   });
 
 });
+
+
+function isLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.redirect('/bars/user/login');
+  }
+}
 
 module.exports = router;
