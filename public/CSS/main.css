@@ -33,6 +33,13 @@ form{
   background-color: #93e4dd;
 }
 
+.searchList{
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  z-index: 10;
+}
+
 .cityList{
   position: absolute;
   font-size: 300%;
@@ -48,7 +55,6 @@ position: absolute;
 top: 5%;
 right: 5%;
 z-index: 10;
-width: 20%;
 }
 
 
