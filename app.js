@@ -11,6 +11,10 @@ var express      = require('express'),
       Session    = require('express-session'),
       Method     = require('method-override'),
       app        = express();
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+}
 
 var googleKey = process.env.googleKey;
 

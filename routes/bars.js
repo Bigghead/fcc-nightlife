@@ -19,16 +19,6 @@ var googleKey = process.env.googleKey;
 
 
 router.get('/', function(req, res){
-  // yelpData.find({}, function(err, bars){
-  //   if(err){
-  //     console.log(err);
-  //   } else {
-  //     bars.forEach(function(bar){
-  //       //bar.going.push('hi');
-  //       console.log(Array.isArray(bar.going));
-  //     });
-  //   }
-  // });
   res.redirect('/bars');
 });
 
@@ -39,14 +29,12 @@ router.get('/bars', function(req, res){
 
 router.post('/bars', function(req, res){
   var cityName = req.body.cityName;
-
-    //console.log(data);
     res.redirect('/bars/'+ cityName);
-      //res.render('googleMap', {data : data, googleKey : googleKey});
 });
 
 router.get('/bars/:city', function(req, res){
   var cityName = req.params.city;
+  console.log(localStorage);
   yelp.search({
     term: 'bar',
     location: cityName
@@ -69,13 +57,9 @@ router.get('/bars/:city', function(req, res){
                   business.whosGoing = [];
                 }
                 if(bar.yelpID === business.id){
-
                   business.whosGoing = bar.going;
-                  //console.log('True'  + business.name + ' ' + bar.yelpID);
-                  console.log('business: ' + business.whosGoing);
                 } else {
-                  //business.whosGoing = [];
-                  //console.log('False'  + business.name + ' ' + bar.yelpID);
+
                  }
               });
             });
@@ -85,14 +69,9 @@ router.get('/bars/:city', function(req, res){
             });
           }
         }
-        // for(var i = 0 ; i < 3; i ++){
-        //   console.log(data.businesses[i].whosGoing);
-        // }
         res.render('googleMap', {data : data, bars: bars, googleKey : googleKey, cityName: cityName});
 
       });
-      //res.render('googleMap', {data : data, googleKey : googleKey});
-
     }
   });
 });
