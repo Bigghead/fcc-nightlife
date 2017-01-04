@@ -88,7 +88,7 @@ router.get('/bars/:city', function(req, res){
         // for(var i = 0 ; i < 3; i ++){
         //   console.log(data.businesses[i].whosGoing);
         // }
-        res.render('googleMap', {data : data, bars: bars, googleKey : googleKey});
+        res.render('googleMap', {data : data, bars: bars, googleKey : googleKey, cityName: cityName});
 
       });
       //res.render('googleMap', {data : data, googleKey : googleKey});

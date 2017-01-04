@@ -21,6 +21,7 @@ form{
   height: 100%;
   width: 80%;
   position: relative;
+  padding: 0;
 }
 #map{
   position: relative;
@@ -32,6 +33,15 @@ form{
   background-color: #93e4dd;
 }
 
+.cityList{
+  position: absolute;
+  font-size: 300%;
+  top: 5%;  /* position the top  edge of the element at the middle of the parent */
+   left: 50%; /* position the left edge of the element at the middle of the parent */
+
+   transform: translate(-50%, -50%);
+  z-index: 10;
+}
 
 .barList{
 position: absolute;
