@@ -2,11 +2,31 @@
 <div class="container-fluid map-container">
       <div id="map"></div>
       <%# Button Modal Trigger %>
-      <button class='searchList btn btn-primary btn-lg'>New City</button>
+      <button class='searchList btn btn-primary btn-lg' data-toggle = "modal" data-target = "#searchModal">New City</button>
       <h1 class='cityList hidden-xs'><%= cityName %></h1>
       <button class = "barList btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
    Bar List
 </button>
+
+      <!--search Modal -->
+      <div class="modal fade" id='searchModal' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role='document'>
+          <div class="modal-content">
+            <div class="modal-header">
+
+            </div>
+
+            <div class="modal-body">
+              <form class="" action="/bars" method="post">
+                <input class='form-control'type="text" name="cityName" value="">
+                <div class="text-center">
+                  <button style='width: 50%;'class='btn btn-warning'type="submit" name="button">New Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Modal -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
