@@ -28,9 +28,24 @@ router.post('/bars/user/:city/:barID', isLoggedIn, function(req, res){
 
     }
   });
-
 });
 
+
+router.delete('/bars/user/:city/:barID', isLoggedIn, function(req, res){
+  yelpData.findOne({yelpID : req.params.barID}, function(err, foundYelp){
+    if(err){
+    console.log(err);
+  } else {
+    console.log(foundYelp.going);
+    console.log(req.user._id);
+    foundYelp.going.splice((foundYelp.going.indexOf(req.user._id)), 1);
+    foundYelp.save();
+    console.log(foundYelp);
+    res.redirect('/bars/' + req.params.city);
+  }
+});
+  //res.send('Delete');
+})
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
