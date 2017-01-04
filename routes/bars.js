@@ -29,12 +29,13 @@ router.get('/bars', function(req, res){
 
 router.post('/bars', function(req, res){
   var cityName = req.body.cityName;
+  res.cookie('cityName', cityName);
     res.redirect('/bars/'+ cityName);
 });
 
 router.get('/bars/:city', function(req, res){
+  console.log(req.cookies);
   var cityName = req.params.city;
-  console.log(localStorage);
   yelp.search({
     term: 'bar',
     location: cityName

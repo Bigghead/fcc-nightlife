@@ -3,6 +3,7 @@ require('dotenv').config();
 var express      = require('express'),
       mongoose   = require('mongoose'),
       bodyParser = require('body-parser'),
+      cookieParser = require('cookie-parser'),
       cors       = require('cors'),
       Yelp       = require('yelp'),
       passport   = require('passport'),
@@ -11,10 +12,7 @@ var express      = require('express'),
       Session    = require('express-session'),
       Method     = require('method-override'),
       app        = express();
-if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require('node-localstorage').LocalStorage;
-  localStorage = new LocalStorage('./scratch');
-}
+
 
 var googleKey = process.env.googleKey;
 
@@ -40,6 +38,7 @@ var userAction = require('./routes/userRoute.js');
 //Setup
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
+app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 app.use(function(req, res, next){
   res.header('Access-Control-Allow-Origin', "*");

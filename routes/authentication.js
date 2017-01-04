@@ -38,10 +38,14 @@ router.get('/bars/user/login', function(req, res){
   res.render('loginForm');
 });
 
-router.post('/bars/user/login', passport.authenticate('local', {
-  successRedirect: '/bars',
-  failureRedirect: '/bars/login'
-}));
+
+router.post('/bars/user/login',
+  passport.authenticate('local'),
+  function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    res.redirect('/bars/' + req.cookies.cityName);
+  });
 
 
 //=====LOGOUT====
