@@ -8,13 +8,18 @@ var express      = require('express'),
       Yelp       = require('yelp'),
       passport   = require('passport'),
       localStrategy = require('passport-local'),
+      githubStrategy = require('passport-github').Strategy,
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
       Method     = require('method-override'),
       app        = express();
 
 
-var googleKey = process.env.googleKey;
+var googleKey = process.env.googleKey,
+    gitClient = process.env.gitClient,
+    gitSecret = process.env.gitSecret;
+
+
 
 //SCHEMAS
 var User = require('./models/userSchema.js');
