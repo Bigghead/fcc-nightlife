@@ -1,12 +1,13 @@
 <% include partials/header %>
 <div class="container-fluid map-container">
       <div id="map"></div>
-      <%# Button Modal Trigger %>
-      <button class='searchList btn btn-primary btn-lg' data-toggle = "modal" data-target = "#searchModal">New City</button>
+
       <h1 class='cityList hidden-xs'><%= cityName %></h1>
-      <button class = "barList btn btn-primary btn-lg" data-toggle = "modal" data-target = "#myModal">
-   Bar List
-</button>
+      <div class='barList'>
+      <button class = "btn btn-danger btn-lg" data-toggle = "modal" data-target = "#myModal">Bar List</button>
+        <%# Button Modal Trigger %>
+        <button class='btn btn-warning btn-lg btn-block' data-toggle = "modal" data-target = "#searchModal">New City</button>
+</div>
 
       <!--search Modal -->
       <div class="modal fade" id='searchModal' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
