@@ -75,11 +75,48 @@ app.use(userAction);
 
 //======PASSPORT=====
 passport.use(new localStrategy(User.authenticate()));
+
+//github passport
+passport.use(new githubStrategy({
+    clientID: gitClient,
+    clientSecret: gitSecret,
+    callbackURL: "http://localhost:8000/auth/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    console.log(cb);
+    User.findOne({username: profile.username}, function(err, foundUser){
+      if(err){
+        console.log(err);
+      } else if(foundUser === null){
+        User.create({username : profile.username}, function(err, madeUser){
+          if(err){
+            console.log(err);
+          } else {
+            return cb(madeUser);
+          }
+        });
+      } else {
+        return cb(err, foundUser);
+      }
+    });
+  }
+));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
 
+app.get('/auth', passport.authenticate('github'));
+app.get('/auth/error', function(req, res){
+  res.redirect('/bars/user/register');
+});
+app.get('/auth/callback',
+  passport.authenticate('github', {failureRedirect: '/auth/error'}),
+  function(req, res){
+    res.redirect('/bars');
+  }
+);
 
 
 app.listen('8000', function(){
