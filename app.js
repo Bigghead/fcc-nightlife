@@ -83,8 +83,6 @@ passport.use(new githubStrategy({
     callbackURL: "http://localhost:8000/auth/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
-    console.log(cb);
     User.findOne({username: profile.username}, function(err, foundUser){
       if(err){
         console.log(err);
@@ -93,7 +91,7 @@ passport.use(new githubStrategy({
           if(err){
             console.log(err);
           } else {
-            return cb(madeUser);
+            return cb(err, madeUser);
           }
         });
       } else {
