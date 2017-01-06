@@ -9,6 +9,7 @@ var express      = require('express'),
       passport   = require('passport'),
       localStrategy = require('passport-local'),
       githubStrategy = require('passport-github').Strategy,
+      googleStrategy = require('passport-google-oauth').Strategy,
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
       Method     = require('method-override'),
@@ -16,9 +17,12 @@ var express      = require('express'),
 
 
 var googleKey = process.env.googleKey,
+    googleClient = process.env.googleClient,
+    googleSecret = process.env.googleSecret,
     gitClient = process.env.gitClient,
     gitSecret = process.env.gitSecret;
 
+console.log(googleClient);
 
 
 //SCHEMAS
