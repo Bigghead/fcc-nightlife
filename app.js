@@ -9,7 +9,7 @@ var express      = require('express'),
       passport   = require('passport'),
       localStrategy = require('passport-local'),
       githubStrategy = require('passport-github').Strategy,
-      googleStrategy = require('passport-google-oauth').Strategy,
+      googleStrategy = require('passport-google-oauth').OAuth2Strategy,
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
       Method     = require('method-override'),
@@ -22,7 +22,6 @@ var googleKey = process.env.googleKey,
     gitClient = process.env.gitClient,
     gitSecret = process.env.gitSecret;
 
-console.log(googleClient);
 
 
 //SCHEMAS
@@ -104,6 +103,18 @@ passport.use(new githubStrategy({
     });
   }
 ));
+
+
+//=====google passport======
+passport.use(new googleStrategy({
+  clientID : googleClient,
+  clientSecret : googleSecret,
+  scope : 'profile',
+  callbackURL: "http://localhost:8000/auth/google"
+}, function(acccessToken, refreshToken, profile, done){
+  console.log(profile);
+}
+  ));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -120,7 +131,15 @@ app.get('/auth/callback',
   }
 );
 
+app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
+app.get('/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/bars/user/login'}),
+  function(req, res){
+    res.redirect('/');
+  }
+);
 app.listen('8000', function(){
   console.log('Night Life App Starting!');
 });
