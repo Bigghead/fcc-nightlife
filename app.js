@@ -79,7 +79,7 @@ app.use(userAction);
 //======PASSPORT=====
 passport.use(new localStrategy(User.authenticate()));
 
-//github passport
+//========github passport
 passport.use(new githubStrategy({
     clientID: gitClient,
     clientSecret: gitSecret,
@@ -134,27 +134,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-
-app.get('/auth', passport.authenticate('github'));
-app.get('/auth/error', function(req, res){
-  res.redirect('/bars/user/register');
-});
-app.get('/auth/callback',
-  passport.authenticate('github', {failureRedirect: '/auth/error'}),
-  function(req, res){
-    res.redirect('/bars/' + req.cookies.cityName);
-  }
-);
-
-app.get('/auth/google', passport.authenticate('google'));
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/bars/user/login'}),
-  function(req, res){
-    res.redirect('/bars/' + req.cookies.cityName);
-  }
-);
 app.listen('8000', function(){
   console.log('Night Life App Starting!');
 });

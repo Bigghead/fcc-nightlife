@@ -48,6 +48,30 @@ router.post('/bars/user/login',
   });
 
 
+//=======github Auth Routes =======
+  router.get('/auth', passport.authenticate('github'));
+  router.get('/auth/error', function(req, res){
+    res.redirect('/bars/user/register');
+  });
+  router.get('/auth/callback',
+    passport.authenticate('github', {failureRedirect: '/auth/error'}),
+    function(req, res){
+      res.redirect('/bars/' + req.cookies.cityName);
+    }
+  );
+
+
+//=======Google Auth Routes======
+router.get('/auth/google', passport.authenticate('google'));
+
+router.get('/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/bars/user/login'}),
+  function(req, res){
+    res.redirect('/bars/' + req.cookies.cityName);
+  }
+);
+
 //=====LOGOUT====
 router.get('/bars/user/logout', function(req, res){
   req.logout();
