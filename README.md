@@ -8,3 +8,8 @@
 [X] User Story: As an authenticated user, I can remove myself from a bar if I no longer want to go there.
 
 [X] User Story: As an unauthenticated user, when I login I should not have to search again.
+
+
+----
+- Used passport local, github, and google authentication
+- Used Google Maps + yelp Api
