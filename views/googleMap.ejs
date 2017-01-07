@@ -101,7 +101,7 @@
 
         for(var i = 0 ; i < 10; i ++){
           loc.push(
-            [data.businesses[i].location.coordinate.latitude, data.businesses[i].location.coordinate.longitude, data.businesses[i].name, labels[i]]
+            [data.businesses[i].location.coordinate.latitude, data.businesses[i].location.coordinate.longitude, data.businesses[i].name, labels[i], data.businesses[i].whosGoing]
           );
         }
 
@@ -136,9 +136,13 @@
     map      : map,
     label    : loc[3]
   });
+
+
   google.maps.event.addListener(marker, 'mouseover', function(){
       infowindow.close(); // Close previously opened infowindow
-      infowindow.setContent( "<div id='infowindow'>"+ loc[2] +"</div>");
+      console.log(loc);
+      infowindow.setContent( "<h2 id='infowindow'>"+ loc[2] +"</h2>" +
+                            "<h4>" + loc[4].length + " Going</h4>");
       infowindow.open(map, marker);
   });
 }

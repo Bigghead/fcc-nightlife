@@ -142,7 +142,7 @@ app.get('/auth/error', function(req, res){
 app.get('/auth/callback',
   passport.authenticate('github', {failureRedirect: '/auth/error'}),
   function(req, res){
-    res.redirect('/bars');
+    res.redirect('/bars/' + req.cookies.cityName);
   }
 );
 
@@ -152,7 +152,7 @@ app.get('/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/bars/user/login'}),
   function(req, res){
-    res.redirect('/');
+    res.redirect('/bars/' + req.cookies.cityName);
   }
 );
 app.listen('8000', function(){
