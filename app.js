@@ -110,11 +110,26 @@ passport.use(new googleStrategy({
   clientID : googleClient,
   clientSecret : googleSecret,
   scope : 'profile',
-  callbackURL: "http://localhost:8000/auth/google"
+  callbackURL: "http://localhost:8000/auth/google/callback"
 }, function(acccessToken, refreshToken, profile, done){
-  console.log(profile);
-}
-  ));
+  User.findOne({username: profile.displayName}, function(err, foundUser){
+    if(err){
+      console.log(err);
+    } else if(foundUser === null){
+      User.create({username : profile.displayName}, function(err, madeUser){
+        if(err){
+          console.log(err);
+        } else {
+          return done(err, madeUser);
+        }
+      });
+    } else {
+      return done(err, foundUser);
+    }
+  });
+ }
+));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -131,7 +146,7 @@ app.get('/auth/callback',
   }
 );
 
-app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+app.get('/auth/google', passport.authenticate('google'));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', {
