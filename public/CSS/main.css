@@ -73,3 +73,8 @@ z-index: 10;
 .img-fluid{
   max-width: 100%;
 }
+
+.half{
+  width: 70%;
+  margin: auto;
+}

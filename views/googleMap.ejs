@@ -141,8 +141,8 @@
   google.maps.event.addListener(marker, 'mouseover', function(){
       infowindow.close(); // Close previously opened infowindow
       console.log(loc);
-      infowindow.setContent( "<h2 id='infowindow'>"+ loc[2] +"</h2>" +
-                            "<h4>" + loc[4].length + " Going</h4>");
+      infowindow.setContent( "<h4 id='infowindow'>"+ loc[2] +"</h4>" +
+                            "<h6>" + loc[4].length + " Going</h6>");
       infowindow.open(map, marker);
   });
 }
