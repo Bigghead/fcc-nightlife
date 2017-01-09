@@ -62,11 +62,11 @@
                             <button class='btn btn-primary disabled'><%= data.businesses[i].whosGoing.length %> Going</button>
                             <% if(currentUser && data.businesses[i].whosGoing.indexOf(currentUser.id) === -1){ %>
                               <form style='width:100%;' method='post' action='/bars/user/<%= data.businesses[i].location.city %>/<%= data.businesses[i].id %>' >
-                                <button class='btn btn-info'type='submit'>Want To Go?</button>
+                                <button class='btn btn-info'type='submit'>Want To Go? <i class=''></i></button>
                               </form>
                             <%  } else if (currentUser){  %>
                               <form style='width:100%;' method='post' action='/bars/user/<%= data.businesses[i].location.city %>/<%= data.businesses[i].id %>?_method=DELETE' >
-                                <button class='btn btn-danger'type='submit'>Cancel</button>
+                                <button class='btn btn-danger'type='submit'>Cancel <span class='glyphicon glyphicon-remove'></span></button>
                               </form>
                             <%  } %>
                           </div>
