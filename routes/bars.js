@@ -9,10 +9,10 @@ var mongoose = require('mongoose'),
     router  = express.Router();
 
 var yelp = new Yelp({
-    consumer_key: consumer_key,
-    consumer_secret: consumer_secret,
-    token : token,
-    token_secret: token_secret,
+    consumer_key: process.env.consumer_key,
+    consumer_secret: process.env.consumer_secret,
+    token : process.env.token,
+    token_secret: process.env.token_secret,
 });
 
 var googleKey = process.env.googleKey;

@@ -1,4 +1,4 @@
-//require('dotenv').config();
+require('dotenv').config();
 
 var express      = require('express'),
       mongoose   = require('mongoose'),
@@ -16,11 +16,11 @@ var express      = require('express'),
       app        = express();
 
 
-var googleKey = googleKey,
-    googleClient = googleClient,
-    googleSecret = googleSecret,
-    gitClient = gitClient,
-    gitSecret = gitSecret;
+var googleKey = process.env.googleKey,
+    googleClient = process.env.googleClient,
+    googleSecret = process.env.googleSecret,
+    gitClient = process.env.gitClient,
+    gitSecret = process.env.gitSecret;
 
 
 
@@ -29,7 +29,7 @@ var User = require('./models/userSchema.js');
 var yelpData = require('./models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
-mongoose.connect(url);
+mongoose.connect(process.env.mongoURL);
 
 
 //=====YELP====
