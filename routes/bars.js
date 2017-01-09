@@ -1,5 +1,6 @@
-require('dotenv').config();
-
+if (process.env.NODE_ENV !== 'production') {
+require('dotenv').config()
+}
 var mongoose = require('mongoose'),
     express = require('express'),
     Yelp    = require('yelp'),
