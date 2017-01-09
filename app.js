@@ -84,7 +84,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.use(new githubStrategy({
     clientID: gitClient,
     clientSecret: gitSecret,
-    callbackURL: "http://localhost:8000/auth/callback"
+    callbackURL: "https://calm-shelf-79440.herokuapp.com/auth/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOne({username: profile.username}, function(err, foundUser){
