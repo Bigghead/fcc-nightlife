@@ -29,7 +29,7 @@ var User = require('./models/userSchema.js');
 var yelpData = require('./models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.mongoURL || url);
+mongoose.connect(process.env.mongoURL);
 
 
 //=====YELP====
