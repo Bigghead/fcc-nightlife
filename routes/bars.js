@@ -5,7 +5,6 @@ var mongoose = require('mongoose'),
     Yelp    = require('yelp'),
     yelpData = require('../models/yelpSchema.js'),
     Async    = require('async'),
-    forEach = require('async-foreach').forEach,
     router  = express.Router();
 
 var yelp = new Yelp({
@@ -15,7 +14,7 @@ var yelp = new Yelp({
     token_secret: process.env.token_secret || token_secret,
 });
 
-var googleKey = process.env.googleKey;
+var googleKey = process.env.googleKey || googleKey;
 
 
 router.get('/', function(req, res){
