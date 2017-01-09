@@ -4,7 +4,6 @@ var mongoose = require('mongoose'),
     express = require('express'),
     Yelp    = require('yelp'),
     yelpData = require('../models/yelpSchema.js'),
-    Async    = require('async'),
     router  = express.Router();
 
 var yelp = new Yelp({
