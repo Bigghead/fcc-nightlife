@@ -1,4 +1,4 @@
-//require('dotenv').config();
+require('dotenv').config();
 
 var express      = require('express'),
       mongoose   = require('mongoose'),
@@ -29,6 +29,8 @@ var User = require('./models/userSchema.js');
 var yelpData = require('./models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
+var url = process.env.mongoURL;
+console.log(url);
 mongoose.connect(process.env.mongoURL || url);
 
 
