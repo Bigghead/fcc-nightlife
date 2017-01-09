@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 
 var express      = require('express'),
       mongoose   = require('mongoose'),
@@ -16,11 +16,11 @@ var express      = require('express'),
       app        = express();
 
 
-var googleKey = process.env.googleKey,
-    googleClient = process.env.googleClient,
-    googleSecret = process.env.googleSecret,
-    gitClient = process.env.gitClient,
-    gitSecret = process.env.gitSecret;
+var googleKey = process.env.googleKey || googleKey,
+    googleClient = process.env.googleClient || googleClient,
+    googleSecret = process.env.googleSecret || googleSecret,
+    gitClient = process.env.gitClient || gitClient,
+    gitSecret = process.env.gitSecret || gitSecret;
 
 
 
