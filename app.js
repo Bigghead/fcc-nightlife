@@ -31,7 +31,7 @@ var yelpData = require('./models/yelpSchema.js');
 mongoose.Promise = global.Promise;
 var url = process.env.mongoURL;
 console.log(url);
-mongoose.connect(process.env.url);
+mongoose.connect(url);
 
 
 //=====YELP====
