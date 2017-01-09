@@ -111,7 +111,7 @@ passport.use(new googleStrategy({
   clientID : googleClient,
   clientSecret : googleSecret,
   scope : 'profile',
-  callbackURL: "http://localhost:8000/auth/google/callback"
+  callbackURL: "https://calm-shelf-79440.herokuapp.com/auth/google/callback"
 }, function(acccessToken, refreshToken, profile, done){
   User.findOne({username: profile.displayName}, function(err, foundUser){
     if(err){
