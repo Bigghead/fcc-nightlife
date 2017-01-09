@@ -135,6 +135,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-app.listen('8000', function(){
+app.listen(port, function(){
   console.log('Night Life App Starting!');
 });
