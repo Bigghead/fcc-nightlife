@@ -52,14 +52,11 @@ router.get('/bars/:city', function(req, res){
           //console.log(bars);
           if(bars.length !== 0){
             bars.forEach(function(bar){
-              data.businesses.forEach(function(business){
-                if(!business.whosGoing){
-                  business.whosGoing = [];
-                }
-                if(bar.yelpID === business.id){
-                  business.whosGoing = bar.going;
-                } else {
-
+              for(var i = 0 ; i <= 10 ; i ++){
+                if(!data.businesses[i].whosGoing){
+                  data.businesses[i].whosGoing = [];
+                } else if(bar.yelpID === data.businesses[i].id){
+                  data.businesses[i] = bar.going;
                  }
               });
             });

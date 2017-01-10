@@ -1,5 +1,8 @@
 # fcc-nightlife
 
+[ ] Use Mocha/Chai for Testing
+
+[ ] Optimize redirects. Slower than before. Might be because of Google Maps or the DB query on the routes
 
 [X] User Story: As an unauthenticated user, I can view all bars in my area.
 
@@ -13,3 +16,7 @@
 ----
 - Used passport local, github, and google authentication
 - Used Google Maps + yelp Api
+
+
+----
+20 Commits are Figuring out Heroku error logs
