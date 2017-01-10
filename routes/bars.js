@@ -58,7 +58,7 @@ router.get('/bars/:city', function(req, res){
                 } else if(bar.yelpID === data.businesses[i].id){
                   data.businesses[i] = bar.going;
                  }
-              });
+              }
             });
           } else {
             data.businesses.forEach(function(business){
