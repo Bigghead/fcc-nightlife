@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     passport = require('passport'),
     passportLocalMongoose = require('passport-local-mongoose'),
     User     = require('../models/userSchema.js'),
+    expressSanitizer = require('express-sanitizer'),
     router   = express.Router();
 
 
@@ -15,8 +16,8 @@ router.get('/bars/user/register', function(req, res){
 router.post('/bars/user/register', function(req, res){
 
   //SANITIZE??
-  var username = req.body.username;
-  var password = req.body.password;
+  var username = req.sanitize(req.body.username);
+  var password = req.sanitize(req.body.password);
 
   User.register(new User({username: username}),
   password,

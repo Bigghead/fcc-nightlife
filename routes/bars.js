@@ -27,7 +27,7 @@ router.get('/bars', function(req, res){
 
 
 router.post('/bars', function(req, res){
-  var cityName = req.body.cityName;
+  var cityName = req.sanitize(req.body.cityName);
   res.cookie('cityName', cityName);
     res.redirect('/bars/'+ cityName);
 });

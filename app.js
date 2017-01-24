@@ -14,6 +14,7 @@ var express      = require('express'),
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
       Method     = require('method-override'),
+      expressSanitizer  = require('express-sanitizer'),
       app        = express();
 
 
@@ -47,6 +48,7 @@ var userAction = require('./routes/userRoute.js');
 //Setup
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
+app.use(expressSanitizer());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 app.use(function(req, res, next){
