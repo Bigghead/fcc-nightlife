@@ -45,7 +45,10 @@ router.post('/bars/user/login',
   function(req, res) {
     // If this function gets called, authentication was successful.
     // `req.user` contains the authenticated user.
+    if(req.cookies.cityName){
     res.redirect('/bars/' + req.cookies.cityName);
+  }
+  res.redirect('/');
   });
 
 
