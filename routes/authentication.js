@@ -60,7 +60,10 @@ router.post('/bars/user/login',
   router.get('/auth/callback',
     passport.authenticate('github', {failureRedirect: '/auth/error'}),
     function(req, res){
-      res.redirect('/bars/' + req.cookies.cityName);
+        if(req.cookies.cityName){
+    res.redirect('/bars/' + req.cookies.cityName);
+  }
+      res.redirect('/bars/');
     }
   );
 
@@ -72,7 +75,10 @@ router.get('/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/bars/user/login'}),
   function(req, res){
+      if(req.cookies.cityName){
     res.redirect('/bars/' + req.cookies.cityName);
+  }
+    res.redirect('/bars/' );
   }
 );
 
