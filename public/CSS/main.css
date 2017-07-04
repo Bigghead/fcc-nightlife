@@ -6,10 +6,12 @@ html, body{
 
 .navbar-brand{
   font-size: 20px;
+  color: white;
 }
 
 .nav>li>a{
   font-size: 18px;
+  color: white;
 }
 
 form{
