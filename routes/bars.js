@@ -33,7 +33,7 @@ router.post('/bars', function(req, res){
 });
 
 router.get('/bars/:city', function(req, res){
-  console.log(req.cookies);
+  // console.log(req.cookies);
   var cityName = req.cookies.cityName;
   yelp.search({
     term: 'bar',

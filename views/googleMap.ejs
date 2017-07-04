@@ -6,9 +6,9 @@
         <h1 class='cityList hidden-xs'>Bars in <%= cityName %></h1>
       <% }  %>
       <div class='barList'>
-      <button class = "btn btn-danger btn-lg" data-toggle = "modal" data-target = "#myModal">Bar List</button>
+      <button class = "btn btn-danger btn-lg btn-toggle" data-toggle = "modal" data-target = "#myModal">Bar List</button>
         <%# Button Modal Trigger %>
-        <button class='btn btn-warning btn-lg btn-block' data-toggle = "modal" data-target = "#searchModal">New City</button>
+        <button class='btn btn-warning btn-lg btn-block btn-toggle' data-toggle = "modal" data-target = "#searchModal">New City</button>
 </div>
 
       <!--search Modal -->
@@ -114,23 +114,6 @@
           center: {lat: <%= data.region.center.latitude %>, lng: <%= data.region.center.longitude %>}
         });
 
-
-        // Create an array of alphabetical characters used to label the markers.
-        // Add some markers to the map.
-        // Note: The code uses the JavaScript Array.prototype.map() method to
-        // create an array of markers based on a given "locations" array.
-        // The map() method here has nothing to do with the Google Maps API.
-        // var markers = locations.map(function(location, i) {
-        //   return new google.maps.Marker({
-        //     position: location,
-        //     label: labels[i % labels.length]
-        //   });
-        // });
-
-        // Add a marker clusterer to manage the markers.
-        // var markerCluster = new MarkerClusterer(map, markers,
-        //     {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
-        //   );
         function placeMarker( loc ) {
   var latLng = new google.maps.LatLng( loc[0], loc[1]);
   var marker = new google.maps.Marker({
@@ -142,7 +125,6 @@
 
   google.maps.event.addListener(marker, 'mouseover', function(){
       infowindow.close(); // Close previously opened infowindow
-      console.log(loc);
       infowindow.setContent( "<h4 id='infowindow'>"+ loc[2] +"</h4>" +
                             "<h6>" + loc[4].length + " Going</h6>");
       infowindow.open(map, marker);
