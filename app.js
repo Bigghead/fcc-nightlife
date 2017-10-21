@@ -1,37 +1,42 @@
 if (process.env.NODE_ENV !== 'production') {
-require('dotenv').config()
+  require('dotenv').config()
 }
-var express      = require('express'),
-      mongoose   = require('mongoose'),
-      bodyParser = require('body-parser'),
+const express      = require('express'),
+      mongoose     = require('mongoose'),
+      bodyParser   = require('body-parser'),
       cookieParser = require('cookie-parser'),
       cors       = require('cors'),
       Yelp       = require('yelp'),
       passport   = require('passport'),
-      localStrategy = require('passport-local'),
+      localStrategy  = require('passport-local'),
       githubStrategy = require('passport-github').Strategy,
       googleStrategy = require('passport-google-oauth').OAuth2Strategy,
       passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
-      Method     = require('method-override'),
+      path       = require('path'),
+      serveStatic    = require('serve-static'),
       expressSanitizer  = require('express-sanitizer'),
       app        = express();
 
 
-var googleKey = process.env.googleKey || googleKey,
-    googleClient = process.env.googleClient || googleClient,
-    googleSecret = process.env.googleSecret || googleSecret,
-    gitClient = process.env.gitClient || gitClient,
-    gitSecret = process.env.gitSecret || gitSecret;
+const googleKey = process.env.googleKey || googleKey,
+      googleClient = process.env.googleClient || googleClient,
+      googleSecret = process.env.googleSecret || googleSecret,
+      gitClient = process.env.gitClient || gitClient,
+      gitSecret = process.env.gitSecret || gitSecret;
 
-
+const url = process.env.NODE_ENV === 'production' ? 
+            'https://calm-shelf-79440.herokuapp.com' :
+            'http://localhost:8000'
 
 //SCHEMAS
-var User = require('./models/userSchema.js');
-var yelpData = require('./models/yelpSchema.js');
+const User = require('./server/models/userSchema.js');
+const yelpData = require('./server/models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.url);
+mongoose.connect('mongodb://Bighead:fdas886@ds143588.mlab.com:43588/fcc-nightlife', {
+  useMongoClient: true
+});
 
 
 //=====YELP====
@@ -39,9 +44,9 @@ mongoose.connect(process.env.url);
 
 
 //========ROUTE IMPORTS======
-var indexRoute = require('./routes/bars.js');
-var userAuth = require('./routes/authentication.js');
-var userAction = require('./routes/userRoute.js');
+const indexRoute = require('./server/routes/bars.js');
+const userAuth = require('./server/routes/authentication.js');
+const userAction = require('./server/routes/userRoute.js');
 
 
 
@@ -50,7 +55,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(expressSanitizer());
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
+app.use(serveStatic(path.join(__dirname, './dist')));
 app.use(function(req, res, next){
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -59,9 +64,9 @@ app.use(function(req, res, next){
   next();
 });
 
-app.use(Method('_method'));
+// app.use(Method('_method'));
 app.use(Session({
-  secret:'Hello from the other side',
+  secret: process.env.secret,
   resave: false,
   saveUninitialized: false
 }));
@@ -70,13 +75,13 @@ app.use(passport.session());
 
 
 //=======TELL EXPRESS TO USE ROUTES=====
-app.use(function(req, res, next){
-  res.locals.currentUser = req.user;
-  next();
-});
-app.use(indexRoute);
-app.use(userAuth);
-app.use(userAction);
+// app.use(function(req, res, next){
+//   res.locals.currentUser = req.user;
+//   next();
+// });
+// app.use(indexRoute);
+// app.use(userAuth);
+// app.use(userAction);
 
 
 //======PASSPORT=====
@@ -86,7 +91,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.use(new githubStrategy({
     clientID: gitClient,
     clientSecret: gitSecret,
-    callbackURL: "https://calm-shelf-79440.herokuapp.com/auth/callback"
+    callbackURL: `${url}/auth/callback`
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOne({username: profile.username}, function(err, foundUser){
@@ -113,7 +118,7 @@ passport.use(new googleStrategy({
   clientID : googleClient,
   clientSecret : googleSecret,
   scope : 'profile',
-  callbackURL: "https://calm-shelf-79440.herokuapp.com/auth/google/callback"
+  callbackURL: `${url}/auth/google/callback`
 }, function(acccessToken, refreshToken, profile, done){
   User.findOne({username: profile.displayName}, function(err, foundUser){
     if(err){
@@ -136,7 +141,11 @@ passport.use(new googleStrategy({
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 
-app.listen(process.env.PORT, function(){
+
+app.listen(8000, function(){
   console.log('Night Life App Starting!');
 });
