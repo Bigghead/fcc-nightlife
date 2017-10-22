@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { DataService } from './../Services/ServerData.service';
 import { Component, OnInit } from '@angular/core';
+import * as GMaps from 'gmaps';
 
 @Component({
   selector: 'app-bars',
@@ -31,7 +32,17 @@ export class BarsComponent implements OnInit {
         .subscribe( res => {
           this.yelpData = res['data'];
           this.bars = res['bars'];
+          setTimeout( () => this.getMap(), 100 );
         } )
+  }
+
+
+  getMap(){
+    const map = new GMaps( {
+      el: '#gMap',
+      lat: this.yelpData.region.center.latitude,
+      lng: this.yelpData.region.center.longitude
+    } );
   }
 
 }

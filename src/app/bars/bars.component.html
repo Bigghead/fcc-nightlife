@@ -2,6 +2,30 @@
   bars works!
 </p>
 
-<div *ngIf="yelpData">
-    <p *ngFor="let bar of yelpData.businesses">{{ bar.name }}</p>
+<div class="">
+    <div *ngIf="!yelpData" class="preloader-wrapper big active" style="margin: auto; margin-top: 15%;">
+    <div class="spinner-layer spinner-blue-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="yelpData" class="bar-container"> 
+    <div class="card" style="width: 40%">
+      <p *ngFor="let bar of yelpData.businesses">{{ bar.name }}</p>
+    </div>
+
+    <div class="card" style="width: 60%">
+      <div id="gMap" style="width: 90%; height:100%; margin: auto;"></div>
+    </div>
+  </div>
+
+  
 </div>
+
+
