@@ -1,0 +1,7 @@
+<p>
+  bars works!
+</p>
+
+<div *ngIf="yelpData">
+    <p *ngFor="let bar of yelpData.businesses">{{ bar.name }}</p>
+</div>

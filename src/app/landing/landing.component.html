@@ -1,3 +1,8 @@
 <p>
   landing works!
 </p>
+
+<form (ngSubmit)="submitForm()" [formGroup]="searchForm">
+  <input type="text" formControlName="city">
+  <button type="submit">GO</button>
+</form>
