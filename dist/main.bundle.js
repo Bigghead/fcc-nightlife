@@ -19,6 +19,8 @@ webpackEmptyAsyncContext.id = "../../../../../src lazy recursive";
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -26,9 +28,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
+
 var AuthService = (function () {
     function AuthService() {
         this.user = undefined;
+        this.userUpdate = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
     }
     AuthService.prototype.isLoggedIn = function () {
         return this.user !== undefined;
@@ -156,7 +160,12 @@ module.exports = "<!--The content below is only a placeholder and can be replace
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_Authentication_service__ = __webpack_require__("../../../../../src/app/Services/Authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__ = __webpack_require__("../../../../../src/app/Services/ServerData.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -167,21 +176,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
+
+
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(server, auth, http) {
+        this.server = server;
+        this.auth = auth;
+        this.http = http;
         this.title = 'app';
+        // this.checkUser();
     }
     return AppComponent;
 }());
 AppComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["o" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__Services_Authentication_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__Services_Authentication_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Http */]) === "function" && _c || Object])
 ], AppComponent);
 
+var _a, _b, _c;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
@@ -268,7 +286,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/bars/bars.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button class=\"waves-effect waves-light btn\" \n                          [disabled]=\"!auth.user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
+module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button class=\"waves-effect waves-light btn blue accent-2\" \n                          [disabled]=\"!user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
 
 /***/ }),
 
@@ -302,9 +320,13 @@ var BarsComponent = (function () {
         this.dataService = dataService;
         this.router = router;
         this.auth = auth;
+        this.user = this.auth.isLoggedIn();
     }
     BarsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.getBars();
+        this.auth.userUpdate
+            .subscribe(function (res) { return _this.user = res; });
     };
     BarsComponent.prototype.getBars = function () {
         var _this = this;
@@ -411,6 +433,7 @@ var LandingComponent = (function () {
         this.dataService = dataService;
         this.auth = auth;
         this.http = http;
+        this.user = false;
     }
     LandingComponent.prototype.ngOnInit = function () {
         this.checkUser();
@@ -418,18 +441,17 @@ var LandingComponent = (function () {
     };
     LandingComponent.prototype.checkUser = function () {
         var _this = this;
-        this.http.get('/user')
-            .subscribe(function (res) {
-            var data = JSON.parse(res['_body']);
-            if (Object.keys(data).length) {
-                _this.auth.user = data;
-            }
-            _this.isLoggedIn();
-        });
-    };
-    LandingComponent.prototype.isLoggedIn = function () {
-        if (this.auth.isLoggedIn()) {
-            this.router.navigate(['/bars']);
+        if (!this.user) {
+            this.http.get('/user')
+                .subscribe(function (res) {
+                var data = JSON.parse(res['_body']);
+                if (Object.keys(data).length) {
+                    _this.auth.user = data;
+                    _this.user = true;
+                    _this.auth.userUpdate.next(true);
+                    _this.router.navigate(['/bars']);
+                }
+            });
         }
     };
     LandingComponent.prototype.initForm = function () {
@@ -479,7 +501,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"blue accent-2\">\n    <div class=\"nav-wrapper\">\n      <a routerLink='/' class=\"brand-logo\">Foods</a>\n      <ul id=\"nav-mobile\" class=\"right hide-on-med-and-down\">\n        <li *ngIf=\"!auth.isLoggedIn()\"><a href=\"/auth/google/callback\">Login</a></li>\n        <li *ngIf=\"auth.isLoggedIn()\"><a style=\"cursor: pointer;\" (click)=\"logOut()\">Log Out</a></li>   \n      </ul>\n    </div>\n</nav>"
+module.exports = "<nav class=\"blue accent-2\">\n    <div class=\"nav-wrapper\">\n      <a routerLink='/' class=\"brand-logo\">Foods</a>\n      <ul id=\"nav-mobile\" class=\"right hide-on-med-and-down\">\n        <li *ngIf=\"!user\"><a href=\"/auth/google/callback\">Login</a></li>\n        <li *ngIf=\"user\"><a style=\"cursor: pointer;\" (click)=\"logOut()\">Log Out</a></li>   \n      </ul>\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -504,8 +526,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var NavbarComponent = (function () {
     function NavbarComponent(auth) {
         this.auth = auth;
+        this.user = false;
     }
+    ;
     NavbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.auth.userUpdate
+            .subscribe(function (res) {
+            if (res) {
+                _this.user = true;
+            }
+            else {
+                _this.user = false;
+            }
+        });
     };
     NavbarComponent.prototype.googleLogin = function () {
         window.location.href = "/auth/google/callback";

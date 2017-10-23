@@ -141,7 +141,7 @@ passport.use(new googleStrategy({
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get('/', (req, res) => {
+app.use('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 

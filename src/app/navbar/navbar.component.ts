@@ -10,7 +10,15 @@ export class NavbarComponent implements OnInit {
 
   constructor( public auth: AuthService ) { }
 
+  user: boolean = false;;
+
   ngOnInit() {
+
+    this.auth.userUpdate
+        .subscribe( res => {
+          if( res ) { this.user = true; }
+            else { this.user = false; }
+        } )
   }
 
   googleLogin(){

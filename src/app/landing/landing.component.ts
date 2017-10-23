@@ -18,33 +18,29 @@ export class LandingComponent implements OnInit {
                private http: Http ) { }
 
   searchForm: FormGroup;
+  user :boolean = false;
 
 
   ngOnInit() {
-    
+
     this.checkUser();
     this.initForm();
   }
 
 
-   checkUser(){
+  checkUser(){
 
-    this.http.get( '/user' )
-        .subscribe( res => {
-          let data = JSON.parse( res['_body'])
-          if( Object.keys(data).length ) {
-            this.auth.user = data
-          }
-
-          this.isLoggedIn();
-        } )
-  }
-
-
-  isLoggedIn(){
-    
-    if( this.auth.isLoggedIn() ){
-      this.router.navigate( ['/bars'] );
+    if( !this.user ){
+        this.http.get( '/user' )
+            .subscribe( res => {
+              let data = JSON.parse( res['_body'])
+              if( Object.keys(data).length ) {
+                this.auth.user = data
+                this.user = true;
+                this.auth.userUpdate.next( true );
+                this.router.navigate(['/bars'])
+              }
+            } )
     }
   }
 

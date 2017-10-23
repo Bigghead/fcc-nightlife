@@ -18,10 +18,13 @@ export class BarsComponent implements OnInit {
 
   bars: any;
   yelpData: any;
+  user = this.auth.isLoggedIn();
 
   ngOnInit() {
 
     this.getBars();
+    this.auth.userUpdate
+        .subscribe( res => this.user = res )
   }
 
 

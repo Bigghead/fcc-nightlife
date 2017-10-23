@@ -2,8 +2,8 @@
     <div class="nav-wrapper">
       <a routerLink='/' class="brand-logo">Foods</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li *ngIf="!auth.isLoggedIn()"><a href="/auth/google/callback">Login</a></li>
-        <li *ngIf="auth.isLoggedIn()"><a style="cursor: pointer;" (click)="logOut()">Log Out</a></li>   
+        <li *ngIf="!user"><a href="/auth/google/callback">Login</a></li>
+        <li *ngIf="user"><a style="cursor: pointer;" (click)="logOut()">Log Out</a></li>   
       </ul>
     </div>
 </nav>
