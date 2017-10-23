@@ -79,9 +79,9 @@ app.use(passport.session());
 //   res.locals.currentUser = req.user;
 //   next();
 // });
-// app.use(indexRoute);
+app.use(indexRoute);
 // app.use(userAuth);
-// app.use(userAction);
+app.use(userAction);
 
 
 //======PASSPORT=====

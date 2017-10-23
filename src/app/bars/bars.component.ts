@@ -43,6 +43,23 @@ export class BarsComponent implements OnInit {
       lat: this.yelpData.region.center.latitude,
       lng: this.yelpData.region.center.longitude
     } );
+
+    this.getMarkers( map );
+  }
+
+
+  getMarkers( map ){
+
+    this.yelpData.businesses.forEach( bar => {
+      map.addMarker( {
+        lat: bar.location.coordinate.latitude,
+        lng: bar.location.coordinate.longitude,
+        title: bar.name,
+        infoWindow: {
+          content: `<p>${bar.name}</p>`
+        }
+      } )
+    } )
   }
 
 }

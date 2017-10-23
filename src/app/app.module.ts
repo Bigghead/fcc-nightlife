@@ -9,12 +9,14 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { BarsComponent } from './bars/bars.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    BarsComponent
+    BarsComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

@@ -17,13 +17,7 @@ var yelp = new Yelp({
 var googleKey = process.env.googleKey || googleKey;
 
 
-// router.get('/', function(req, res){
-//   res.redirect('/bars');
-// });
 
-router.get('/bars', function(req, res){
-  res.render('landing');
-});
 
 
 router.post('/bars', function(req, res){
@@ -34,7 +28,7 @@ router.post('/bars', function(req, res){
 
 router.get('/bars/:city', function(req, res){
   // console.log(req.cookies);
-  var cityName = req.cookies.cityName;
+  var cityName = req.params.city;
   yelp.search({
     term: 'bar',
     location: cityName
@@ -69,7 +63,8 @@ router.get('/bars/:city', function(req, res){
             });
           }
         }
-        res.render('googleMap', {data : data, bars: bars, googleKey : googleKey, cityName: cityName});
+        // res.render('googleMap', {data : data, bars: bars, googleKey : googleKey, cityName: cityName});
+        res.status(200).send( { data, bars } )
 
       });
     }
