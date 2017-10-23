@@ -163,6 +163,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 var AppComponent = (function () {
     function AppComponent() {
@@ -175,7 +178,8 @@ AppComponent = __decorate([
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], AppComponent);
 
 //# sourceMappingURL=app.component.js.map
@@ -264,7 +268,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/bars/bars.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button class=\"waves-effect waves-light btn\" \n                          [disabled]=\"!auth.user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%\">\n        <div id=\"gMap\" style=\"width: 90%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
+module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button class=\"waves-effect waves-light btn\" \n                          [disabled]=\"!auth.user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
 
 /***/ }),
 
@@ -380,10 +384,12 @@ module.exports = "<p>\n  landing works!\n</p>\n\n<form (ngSubmit)=\"submitForm()
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LandingComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_ServerData_service__ = __webpack_require__("../../../../../src/app/Services/ServerData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_Authentication_service__ = __webpack_require__("../../../../../src/app/Services/Authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__ = __webpack_require__("../../../../../src/app/Services/ServerData.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -397,17 +403,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var LandingComponent = (function () {
-    function LandingComponent(router, dataService) {
+    function LandingComponent(router, dataService, auth, http) {
         this.router = router;
         this.dataService = dataService;
+        this.auth = auth;
+        this.http = http;
     }
     LandingComponent.prototype.ngOnInit = function () {
+        this.checkUser();
         this.initForm();
     };
+    LandingComponent.prototype.checkUser = function () {
+        var _this = this;
+        this.http.get('/user')
+            .subscribe(function (res) {
+            var data = JSON.parse(res['_body']);
+            if (Object.keys(data).length) {
+                _this.auth.user = data;
+            }
+            _this.isLoggedIn();
+        });
+    };
+    LandingComponent.prototype.isLoggedIn = function () {
+        if (this.auth.isLoggedIn()) {
+            this.router.navigate(['/bars']);
+        }
+    };
     LandingComponent.prototype.initForm = function () {
-        this.searchForm = new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormGroup */]({
-            city: new __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormControl */]()
+        this.searchForm = new __WEBPACK_IMPORTED_MODULE_4__angular_forms__["b" /* FormGroup */]({
+            city: new __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormControl */]()
         });
     };
     LandingComponent.prototype.submitForm = function () {
@@ -418,15 +445,15 @@ var LandingComponent = (function () {
     return LandingComponent;
 }());
 LandingComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["o" /* Component */])({
         selector: 'app-landing',
         template: __webpack_require__("../../../../../src/app/landing/landing.component.html"),
         styles: [__webpack_require__("../../../../../src/app/landing/landing.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__Services_ServerData_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__Services_ServerData_service__["a" /* DataService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__Services_Authentication_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__Services_Authentication_service__["a" /* AuthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Http */]) === "function" && _d || Object])
 ], LandingComponent);
 
-var _a, _b;
+var _a, _b, _c, _d;
 //# sourceMappingURL=landing.component.js.map
 
 /***/ }),
@@ -452,7 +479,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"blue accent-2\">\n    <div class=\"nav-wrapper\">\n      <a href=\"#\" class=\"brand-logo\">Logo</a>\n      <ul id=\"nav-mobile\" class=\"right hide-on-med-and-down\">\n        <li><a href=\"sass.html\">Sass</a></li>\n        <li><a href=\"badges.html\">Components</a></li>\n        <li><a href=\"collapsible.html\">JavaScript</a></li>\n      </ul>\n    </div>\n</nav>"
+module.exports = "<nav class=\"blue accent-2\">\n    <div class=\"nav-wrapper\">\n      <a routerLink='/' class=\"brand-logo\">Foods</a>\n      <ul id=\"nav-mobile\" class=\"right hide-on-med-and-down\">\n        <li *ngIf=\"!auth.isLoggedIn()\"><a href=\"/auth/google/callback\">Login</a></li>\n        <li *ngIf=\"auth.isLoggedIn()\"><a style=\"cursor: pointer;\" (click)=\"logOut()\">Log Out</a></li>   \n      </ul>\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -461,7 +488,8 @@ module.exports = "<nav class=\"blue accent-2\">\n    <div class=\"nav-wrapper\">
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__ = __webpack_require__("../../../../../src/app/Services/Authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -472,22 +500,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var NavbarComponent = (function () {
-    function NavbarComponent() {
+    function NavbarComponent(auth) {
+        this.auth = auth;
     }
     NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.googleLogin = function () {
+        window.location.href = "/auth/google/callback";
+    };
+    NavbarComponent.prototype.logOut = function () {
+        this.auth.user = undefined;
+        window.location.href = "/logout'";
     };
     return NavbarComponent;
 }());
 NavbarComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
         selector: 'app-navbar',
         template: __webpack_require__("../../../../../src/app/navbar/navbar.component.html"),
         styles: [__webpack_require__("../../../../../src/app/navbar/navbar.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */]) === "function" && _a || Object])
 ], NavbarComponent);
 
+var _a;
 //# sourceMappingURL=navbar.component.js.map
 
 /***/ }),

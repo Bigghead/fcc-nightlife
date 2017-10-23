@@ -7,6 +7,15 @@ var mongoose = require('mongoose'),
   router = express.Router();
 
 
+router.get('/user', ( req, res ) => {
+  if( !req.user ){
+    res.send( { data : undefined } );
+  } else {
+    res.json( req.user );
+  }
+} )
+
+
 router.get('/bars/user/register', function (req, res) {
   res.render('registerForm');
 });
@@ -60,10 +69,10 @@ router.get('/auth/error', function (req, res) {
 router.get('/auth/callback',
   passport.authenticate('github', { failureRedirect: '/auth/error' }),
   function (req, res) {
-    if (req.cookies.cityName) {
-      res.redirect('/bars/' + req.cookies.cityName);
-    }
-    res.redirect('/bars/');
+    // if (req.cookies.cityName) {
+    //   res.redirect('/bars/' + req.cookies.cityName);
+    // }
+    res.redirect('/');
   }
 );
 
@@ -76,17 +85,17 @@ router.get('/auth/google/callback',
     failureRedirect: '/bars/user/login'
   }),
   function (req, res) {
-    if (req.cookies.cityName) {
-      res.redirect('/bars/' + req.cookies.cityName);
-    }
-    res.redirect('/bars/');
+    // if (req.cookies.cityName) {
+    //   res.redirect('/bars/' + req.cookies.cityName);
+    // }
+    res.redirect('/');
   }
 );
 
 //=====LOGOUT====
 router.get('/bars/user/logout', function (req, res) {
   req.logout();
-  res.redirect('/bars');
+  res.redirect('/');
 })
 
 

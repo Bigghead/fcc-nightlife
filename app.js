@@ -80,7 +80,7 @@ app.use(passport.session());
 //   next();
 // });
 app.use(indexRoute);
-// app.use(userAuth);
+app.use(userAuth);
 app.use(userAction);
 
 
@@ -141,7 +141,7 @@ passport.use(new googleStrategy({
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 

@@ -1,10 +1,9 @@
 <nav class="blue accent-2">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
+      <a routerLink='/' class="brand-logo">Foods</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
+        <li *ngIf="!auth.isLoggedIn()"><a href="/auth/google/callback">Login</a></li>
+        <li *ngIf="auth.isLoggedIn()"><a style="cursor: pointer;" (click)="logOut()">Log Out</a></li>   
       </ul>
     </div>
 </nav>
