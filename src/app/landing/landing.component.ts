@@ -33,6 +33,7 @@ export class LandingComponent implements OnInit {
   submitForm(){
     
     this.dataService.cityName = this.searchForm.value.city;
+    localStorage.setItem('cityName', this.searchForm.value.city)
     this.router.navigate( ['/bars'] );
   }
 

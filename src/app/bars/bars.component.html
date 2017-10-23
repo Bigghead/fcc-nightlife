@@ -15,17 +15,35 @@
     </div>
   </div>
 
-  <div *ngIf="yelpData" class="bar-container"> 
-    <div class="card" style="width: 40%">
-      <p *ngFor="let bar of yelpData.businesses">{{ bar.name }}</p>
+  <div *ngIf="yelpData" class="bar-container">
+    <div class="card bar-data" style="width: 40%">
+      <div *ngFor="let bar of yelpData.businesses" class="card horizontal">
+        <div class="card-image">
+          <img style="margin-top: 20%;" src="{{ bar.image_url }}">
+        </div>
+        <div class="card-stacked">
+          <div class="card-content">
+            <p><strong>{{ bar.name }}
+                <span style="float: right;">
+                  <button class="waves-effect waves-light btn" 
+                          [disabled]="!auth.user">
+                          {{ bar.whosGoing.length}} Going
+                  </button>                  
+                </span>
+              </strong></p>
+            <br>
+            <p>{{ bar.snippet_text }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="card" style="width: 60%">
-      <div id="gMap" style="width: 90%; height:100%; margin: auto;"></div>
+      <div class="card" style="width: 60%">
+        <div id="gMap" style="width: 90%; height:100%; margin: auto;"></div>
+      </div>
     </div>
+
+
   </div>
-
-  
-</div>
 
 

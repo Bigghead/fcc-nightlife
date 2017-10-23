@@ -251,7 +251,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".bar-container{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    height: 100%;\n    width: 100%;\n}", ""]);
+exports.push([module.i, ".bar-container{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    height: 85vh;\n    width: 100%;\n}\n\n.bar-data{\n    overflow-y: scroll;\n}\n\n", ""]);
 
 // exports
 
@@ -264,7 +264,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/bars/bars.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\"> \n    <div class=\"card\" style=\"width: 40%\">\n      <p *ngFor=\"let bar of yelpData.businesses\">{{ bar.name }}</p>\n    </div>\n\n    <div class=\"card\" style=\"width: 60%\">\n      <div id=\"gMap\" style=\"width: 90%; height:100%; margin: auto;\"></div>\n    </div>\n  </div>\n\n  \n</div>\n\n\n"
+module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button class=\"waves-effect waves-light btn\" \n                          [disabled]=\"!auth.user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%\">\n        <div id=\"gMap\" style=\"width: 90%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
 
 /***/ }),
 
@@ -273,11 +273,12 @@ module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BarsComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Services_ServerData_service__ = __webpack_require__("../../../../../src/app/Services/ServerData.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_gmaps__ = __webpack_require__("../../../../gmaps/gmaps.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_gmaps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_gmaps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__ = __webpack_require__("../../../../../src/app/Services/Authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__ = __webpack_require__("../../../../../src/app/Services/ServerData.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_gmaps__ = __webpack_require__("../../../../gmaps/gmaps.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_gmaps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_gmaps__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -291,17 +292,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var BarsComponent = (function () {
-    function BarsComponent(dataService, router) {
+    function BarsComponent(dataService, router, auth) {
         this.dataService = dataService;
         this.router = router;
+        this.auth = auth;
     }
     BarsComponent.prototype.ngOnInit = function () {
         this.getBars();
     };
     BarsComponent.prototype.getBars = function () {
         var _this = this;
-        var cityName = this.dataService.cityName;
+        var cityName = localStorage.getItem('cityName');
         if (!cityName)
             return this.router.navigate(['/']);
         this.dataService.fetchData("/bars/" + cityName)
@@ -312,7 +315,7 @@ var BarsComponent = (function () {
         });
     };
     BarsComponent.prototype.getMap = function () {
-        var map = new __WEBPACK_IMPORTED_MODULE_3_gmaps__({
+        var map = new __WEBPACK_IMPORTED_MODULE_4_gmaps__({
             el: '#gMap',
             lat: this.yelpData.region.center.latitude,
             lng: this.yelpData.region.center.longitude
@@ -326,7 +329,7 @@ var BarsComponent = (function () {
                 lng: bar.location.coordinate.longitude,
                 title: bar.name,
                 infoWindow: {
-                    content: "<p>" + bar.name + "</p>"
+                    content: "<p><strong>" + bar.name + "<strong></p>\n                    <p>" + bar.whosGoing.length + " Going</p>"
                 }
             });
         });
@@ -334,15 +337,15 @@ var BarsComponent = (function () {
     return BarsComponent;
 }());
 BarsComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["o" /* Component */])({
         selector: 'app-bars',
         template: __webpack_require__("../../../../../src/app/bars/bars.component.html"),
         styles: [__webpack_require__("../../../../../src/app/bars/bars.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__Services_ServerData_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__Services_ServerData_service__["a" /* DataService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */]) === "function" && _c || Object])
 ], BarsComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=bars.component.js.map
 
 /***/ }),
@@ -409,6 +412,7 @@ var LandingComponent = (function () {
     };
     LandingComponent.prototype.submitForm = function () {
         this.dataService.cityName = this.searchForm.value.city;
+        localStorage.setItem('cityName', this.searchForm.value.city);
         this.router.navigate(['/bars']);
     };
     return LandingComponent;

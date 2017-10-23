@@ -1,6 +1,11 @@
 .bar-container{
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 85vh;
     width: 100%;
 }
+
+.bar-data{
+    overflow-y: scroll;
+}
+

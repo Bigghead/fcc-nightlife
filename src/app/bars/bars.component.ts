@@ -1,3 +1,4 @@
+import { AuthService } from './../Services/Authentication.service';
 import { Router } from '@angular/router';
 import { DataService } from './../Services/ServerData.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,8 @@ import * as GMaps from 'gmaps';
 export class BarsComponent implements OnInit {
 
   constructor( private dataService: DataService, 
-               private router: Router ) { }
+               private router: Router, 
+               public auth: AuthService ) { }
 
 
   bars: any;
@@ -25,7 +27,7 @@ export class BarsComponent implements OnInit {
 
   getBars(){
 
-    let cityName = this.dataService.cityName;
+    let cityName = localStorage.getItem('cityName');
     if( !cityName ) return this.router.navigate( ['/'] );
 
     this.dataService.fetchData( `/bars/${cityName}`)
@@ -56,7 +58,8 @@ export class BarsComponent implements OnInit {
         lng: bar.location.coordinate.longitude,
         title: bar.name,
         infoWindow: {
-          content: `<p>${bar.name}</p>`
+          content: `<p><strong>${bar.name}<strong></p>
+                    <p>${bar.whosGoing.length} Going</p>`
         }
       } )
     } )
