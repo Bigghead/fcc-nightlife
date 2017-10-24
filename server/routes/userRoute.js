@@ -4,54 +4,51 @@ var mongoose = require('mongoose'),
     yelpData = require('../models/yelpSchema.js'),
     User     = require('../models/userSchema.js'),
     router  = express.Router();
+    
 
-router.post('/bars/user/:city/:barID', isLoggedIn, function(req, res){
-  yelpData.findOne({yelpID : req.params.barID}, function(err, foundYelp){
-    if(foundYelp === null){
-      yelpData.create({
-        yelpID: req.params.barID,
-        going: req.user._id
-      }, function(err, savedYelp){
-        if(err){
-          console.log(err);
-        } else {
-          res.redirect('/bars/' + req.params.city);
-        }
-      });
-    } else {
-      console.log(foundYelp);
-      console.log(req.user);
-      foundYelp.going.push(req.user._id);
-      foundYelp.save();
-      console.log(foundYelp);
-      res.redirect('/bars/' + req.params.city);
+router.post('/bars/:city/:barID', isLoggedIn, function(req, res){
+  yelpData.findOne( { yelpID : req.params.barID} )
+          .then( ( err, foundYelp ) => {
+            if( err ) return Promise.reject( { error: 'No Data Found' } )
+            if( !foundYelp ){
+              return yelpData.create( {
+                yelpID: req.params.barID,
+                going: req.user._id
+              } )
+              .then( ( err, savedYelp ) => {
+                if( err ) {
+                  console.log(err);
+                } else {
+                  res.sendStatus(200);
+                }
+                } )
+            } else {
+              foundYelp.going.push( req.user._id );
+              foundYelp.save();
+              res.sendStatus(200);
+            }
+          } )
+          .catch( err => res.status(400).send( { error: 'Can not add user' } ) )
+}) ;
 
-    }
-  });
-});
 
+router.delete('/bars/:city/:barID', isLoggedIn, ( req, res ) => {
+  yelpData.findOne( { yelpID : req.params.barID } )
+          .then( ( err, foundYelp ) => {
+            if( err ) return Promise.reject( { error: 'No Data Found' } );
+            foundYelp.going.splice( (foundYelp.going.indexOf(req.user._id) ), 1 );
+            foundYelp.save();
+            res.redirect('/bars/' + req.params.city);
+          } )
+          .catch( err => res.status( 400 ).send( { error: 'Can not delete user' } ) );
+} )
 
-router.delete('/bars/user/:city/:barID', isLoggedIn, function(req, res){
-  yelpData.findOne({yelpID : req.params.barID}, function(err, foundYelp){
-    if(err){
-    console.log(err);
-  } else {
-    console.log(foundYelp.going);
-    console.log(req.user._id);
-    foundYelp.going.splice((foundYelp.going.indexOf(req.user._id)), 1);
-    foundYelp.save();
-    console.log(foundYelp);
-    res.redirect('/bars/' + req.params.city);
-  }
-});
-  //res.send('Delete');
-})
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
     return next();
   } else {
-    res.redirect('/bars/user/login');
+    res.redirect('/');
   }
 }
 
