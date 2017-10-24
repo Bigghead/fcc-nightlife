@@ -34,7 +34,7 @@ const User = require('./server/models/userSchema.js');
 const yelpData = require('./server/models/yelpSchema.js');
 //DB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://Bighead:fdas886@ds143588.mlab.com:43588/fcc-nightlife', {
+mongoose.connect(process.env.mongoURL, {
   useMongoClient: true
 });
 
