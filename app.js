@@ -8,26 +8,26 @@ const express      = require('express'),
       cors       = require('cors'),
       Yelp       = require('yelp'),
       passport   = require('passport'),
-      localStrategy  = require('passport-local'),
-      githubStrategy = require('passport-github').Strategy,
-      googleStrategy = require('passport-google-oauth').OAuth2Strategy,
-      passportLocalMongoose = require('passport-local-mongoose'),
       Session    = require('express-session'),
       path       = require('path'),
       serveStatic    = require('serve-static'),
+      localStrategy  = require('passport-local'),
+      githubStrategy = require('passport-github').Strategy,
+      googleStrategy = require('passport-google-oauth').OAuth2Strategy,
       expressSanitizer  = require('express-sanitizer'),
+      passportLocalMongoose = require('passport-local-mongoose'),
       app        = express();
 
 
 const googleKey = process.env.googleKey || googleKey,
-      googleClient = process.env.googleClient || googleClient,
-      googleSecret = process.env.googleSecret || googleSecret,
       gitClient = process.env.gitClient || gitClient,
-      gitSecret = process.env.gitSecret || gitSecret;
+      gitSecret = process.env.gitSecret || gitSecret,
+      googleClient = process.env.googleClient || googleClient,
+      googleSecret = process.env.googleSecret || googleSecret;
 
-const url = process.env.NODE_ENV === 'production' ? 
-            'https://calm-shelf-79440.herokuapp.com' :
-            'http://localhost:8000'
+const url = process.env.NODE_ENV === 'production'  
+             ? 'https://calm-shelf-79440.herokuapp.com' 
+             : 'http://localhost:8000'
 
 //SCHEMAS
 const User = require('./server/models/userSchema.js');
@@ -45,7 +45,7 @@ mongoose.connect(process.env.mongoURL, {
 
 //========ROUTE IMPORTS======
 const indexRoute = require('./server/routes/bars.js');
-const userAuth = require('./server/routes/authentication.js');
+const userAuth   = require('./server/routes/authentication.js');
 const userAction = require('./server/routes/userRoute.js');
 
 
@@ -64,7 +64,7 @@ app.use(function(req, res, next){
   next();
 });
 
-// app.use(Method('_method'));
+
 app.use(Session({
   secret: process.env.secret,
   resave: false,
@@ -74,20 +74,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-//=======TELL EXPRESS TO USE ROUTES=====
-// app.use(function(req, res, next){
-//   res.locals.currentUser = req.user;
-//   next();
-// });
+//=======TELL EXPRESS TO USE ROUTES=====//
+
 app.use(indexRoute);
 app.use(userAuth);
 app.use(userAction);
 
 
-//======PASSPORT=====
+//=====PASSPORT=====//
 passport.use(new localStrategy(User.authenticate()));
 
-//========github passport
+
+//=====Github Passport=====//
 passport.use(new githubStrategy({
     clientID: gitClient,
     clientSecret: gitSecret,
