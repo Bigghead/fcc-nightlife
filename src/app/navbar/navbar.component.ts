@@ -1,5 +1,6 @@
 import { AuthService } from '../Services/Authentication.service';
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../Services/ServerData.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,17 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor( public auth: AuthService ) { }
+  constructor( public auth: AuthService, private dataService: DataService ) { }
 
   user: boolean = false;;
 
   ngOnInit() {
 
-    this.auth.userUpdate
+    this.dataService.fetchData( '/user' )
         .subscribe( res => {
-          if( res ) { this.user = true; }
-            else { this.user = false; }
-        } )
+            this.user = true;
+            this.auth.user = res;
+            this.auth.userUpdate.next( true );
+        }, err => this.user = false )
+
   }
 
   googleLogin(){
@@ -26,8 +29,10 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut(){
+    this.user = undefined;
     this.auth.user = undefined;
-    window.location.href = "/logout'";    
+    localStorage.clear();
+    window.location.href = "/bars/user/logout";    
   }
 
 }

@@ -23,7 +23,7 @@ export class LandingComponent implements OnInit {
 
   ngOnInit() {
 
-    this.checkUser();
+    // this.checkUser();
     this.initForm();
   }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataService } from './../Services/ServerData.service';
 import { Component, OnInit } from '@angular/core';
 import * as GMaps from 'gmaps';
+import 'rxjs/add/operator/do';
 
 @Component({
   selector: 'app-bars',
@@ -34,6 +35,13 @@ export class BarsComponent implements OnInit {
     if( !cityName ) return this.router.navigate( ['/'] );
 
     this.dataService.fetchData( `/bars/${cityName}`)
+        .do( res => {
+          if( this.auth.user ){
+            res['data'].businesses.forEach( bar => {
+              return bar['isGoing'] = bar.whosGoing.includes( this.auth.user._id)
+            } ) 
+          }
+        } )
         .subscribe( res => {
           this.yelpData = res['data'];
           this.bars = res['bars'];

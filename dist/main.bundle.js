@@ -259,7 +259,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".bar-container{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    height: 85vh;\n    width: 100%;\n}\n\n.bar-data{\n    overflow-y: scroll;\n}\n\n", ""]);
+exports.push([module.i, ".bar-container{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    height: 85vh;\n    width: 100%;\n}\n\n.bar-data{\n    overflow-y: scroll;\n}\n\n.btn-small {\n    height: 24px;\n    line-height: 24px;\n    padding: 0 0.5rem;\n}\n\n", ""]);
 
 // exports
 
@@ -272,7 +272,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/bars/bars.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button class=\"waves-effect waves-light btn blue accent-2\" \n                          [disabled]=\"!user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
+module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button *ngIf=\"bar.isGoing\"\n                          class=\"waves-effect waves-light btn btn-small red accent-2\">Cancel</button>\n                  <button class=\"waves-effect waves-light btn btn-small blue accent-2\" \n                          [disabled]=\"!user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
 
 /***/ }),
 
@@ -287,6 +287,8 @@ module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_gmaps__ = __webpack_require__("../../../../gmaps/gmaps.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_gmaps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_gmaps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_do__ = __webpack_require__("../../../../rxjs/add/operator/do.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_do__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -296,6 +298,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -320,6 +323,13 @@ var BarsComponent = (function () {
         if (!cityName)
             return this.router.navigate(['/']);
         this.dataService.fetchData("/bars/" + cityName)
+            .do(function (res) {
+            if (_this.auth.user) {
+                res['data'].businesses.forEach(function (bar) {
+                    return bar['isGoing'] = bar.whosGoing.includes(_this.auth.user._id);
+                });
+            }
+        })
             .subscribe(function (res) {
             _this.yelpData = res['data'];
             _this.bars = res['bars'];
@@ -422,7 +432,7 @@ var LandingComponent = (function () {
         this.user = false;
     }
     LandingComponent.prototype.ngOnInit = function () {
-        this.checkUser();
+        // this.checkUser();
         this.initForm();
     };
     LandingComponent.prototype.checkUser = function () {
@@ -498,6 +508,7 @@ module.exports = "<nav class=\"blue accent-2\">\n    <div class=\"nav-wrapper\">
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__ = __webpack_require__("../../../../../src/app/Services/Authentication.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__ = __webpack_require__("../../../../../src/app/Services/ServerData.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -509,30 +520,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var NavbarComponent = (function () {
-    function NavbarComponent(auth) {
+    function NavbarComponent(auth, dataService) {
         this.auth = auth;
+        this.dataService = dataService;
         this.user = false;
     }
     ;
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.auth.userUpdate
+        this.dataService.fetchData('/user')
             .subscribe(function (res) {
-            if (res) {
-                _this.user = true;
-            }
-            else {
-                _this.user = false;
-            }
-        });
+            _this.user = true;
+            _this.auth.user = res;
+            _this.auth.userUpdate.next(true);
+        }, function (err) { return _this.user = false; });
     };
     NavbarComponent.prototype.googleLogin = function () {
         window.location.href = "/auth/google/callback";
     };
     NavbarComponent.prototype.logOut = function () {
+        this.user = undefined;
         this.auth.user = undefined;
-        window.location.href = "/logout'";
+        localStorage.clear();
+        window.location.href = "/bars/user/logout";
     };
     return NavbarComponent;
 }());
@@ -542,10 +554,10 @@ NavbarComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/navbar/navbar.component.html"),
         styles: [__webpack_require__("../../../../../src/app/navbar/navbar.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__Services_Authentication_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__Services_ServerData_service__["a" /* DataService */]) === "function" && _b || Object])
 ], NavbarComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=navbar.component.js.map
 
 /***/ }),

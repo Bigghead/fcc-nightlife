@@ -8,10 +8,11 @@ var mongoose = require('mongoose'),
 
 
 router.get('/user', ( req, res ) => {
+  console.log( req.user )
   if( !req.user ){
-    res.send( { data : undefined } );
+    res.status(500).send( { data : undefined } );
   } else {
-    res.json( req.user );
+    res.status(200).json( req.user );
   }
 } )
 
@@ -88,14 +89,15 @@ router.get('/auth/google/callback',
     // if (req.cookies.cityName) {
     //   res.redirect('/bars/' + req.cookies.cityName);
     // }
-    res.redirect('/');
+    res.redirect('/bars');
   }
 );
 
 //=====LOGOUT====
 router.get('/bars/user/logout', function (req, res) {
   req.logout();
-  res.redirect('/');
+  // res.status(200).send('success')
+  res.redirect( '/' )
 })
 
 
