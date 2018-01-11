@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
 
 
 router.get('/user', ( req, res ) => {
-  console.log( req.user )
   if( !req.user ){
     res.status(500).send( { data : undefined } );
   } else {

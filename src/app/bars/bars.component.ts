@@ -20,6 +20,7 @@ export class BarsComponent implements OnInit {
   bars: any;
   yelpData: any;
   user = this.auth.isLoggedIn();
+  map;
 
   ngOnInit() {
 
@@ -34,7 +35,7 @@ export class BarsComponent implements OnInit {
     let cityName = localStorage.getItem('cityName');
     if( !cityName ) return this.router.navigate( ['/'] );
 
-    this.dataService.fetchData( `/bars/${cityName}`)
+    this.dataService.fetch( 'get', `/bars/${cityName}`)
         .do( res => {
           if( this.auth.user ){
             res['data'].businesses.forEach( bar => {
@@ -51,29 +52,56 @@ export class BarsComponent implements OnInit {
 
 
   getMap(){
-    const map = new GMaps( {
+    this.map = new GMaps( {
       el: '#gMap',
       lat: this.yelpData.region.center.latitude,
       lng: this.yelpData.region.center.longitude
     } );
 
-    this.getMarkers( map );
+    this.getMarkers( this.map );
   }
 
 
   getMarkers( map ){
 
     this.yelpData.businesses.forEach( bar => {
-      map.addMarker( {
-        lat: bar.location.coordinate.latitude,
-        lng: bar.location.coordinate.longitude,
-        title: bar.name,
-        infoWindow: {
-          content: `<p><strong>${bar.name}<strong></p>
-                    <p>${bar.whosGoing.length} Going</p>`
-        }
-      } )
+        this.setMarker( map, bar );
     } )
+  }
+
+
+  setMarker( map, bar ){
+    map.addMarker( {
+      lat: bar.location.coordinate.latitude,
+      lng: bar.location.coordinate.longitude,
+      title: bar.name,
+      infoWindow: {
+        content: `<p><strong>${bar.name}<strong></p>
+                  <p>${bar.whosGoing.length} Going</p>`
+      }
+    } )
+  } 
+
+
+  addUser( index, barId ) {
+    return this.dataService
+               .fetch( 'post', '/bars/' + barId  )
+               .subscribe( 
+                 res => {
+                    this.yelpData.businesses[index].whosGoing.push( this.auth.user._id );
+                    this.map.addMarker( this.map, this.yelpData.businesses[index])
+                    
+                 }
+               )
+  }
+
+
+  deleteUser( index, barId ){
+    return this.dataService.deleteUser( barId )
+               .subscribe( res => {
+                 this.yelpData.businesses.splice( index, 1 );
+                 this.map.addMarker( this.map, this.yelpData.businesses[index])
+               })
   }
 
 }

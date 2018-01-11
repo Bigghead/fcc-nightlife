@@ -74,9 +74,15 @@ var DataService = (function () {
         this.cityName = '';
         this.url = 'http://localhost:8000';
     }
-    DataService.prototype.fetchData = function (url) {
-        return this.http.get(this.url + url)
-            .map(function (res) { return res.json(); });
+    DataService.prototype.fetch = function (method, url, body) {
+        if (body === void 0) { body = {}; }
+        var checkAction = method === 'get'
+            ? this.http.get(url).map(function (res) { return res.json(); })
+            : this.http.post(url, body);
+        return checkAction;
+    };
+    DataService.prototype.deleteUser = function (url) {
+        return this.http.delete('/bars/' + url);
     };
     return DataService;
 }());
@@ -272,7 +278,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/bars/bars.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button *ngIf=\"bar.isGoing\"\n                          class=\"waves-effect waves-light btn btn-small red accent-2\">Cancel</button>\n                  <button class=\"waves-effect waves-light btn btn-small blue accent-2\" \n                          [disabled]=\"!user\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
+module.exports = "<p>\n  bars works!\n</p>\n\n<div class=\"\">\n    <div *ngIf=\"!yelpData\" class=\"preloader-wrapper big active\" style=\"margin: auto; margin-top: 15%;\">\n    <div class=\"spinner-layer spinner-blue-only\">\n      <div class=\"circle-clipper left\">\n        <div class=\"circle\"></div>\n      </div><div class=\"gap-patch\">\n        <div class=\"circle\"></div>\n      </div><div class=\"circle-clipper right\">\n        <div class=\"circle\"></div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"yelpData\" class=\"bar-container\">\n    <div class=\"card bar-data\" style=\"width: 40%; margin-left: 20px;\">\n      <div *ngFor=\"let bar of yelpData.businesses; let i = index;\" class=\"card horizontal\">\n        <div class=\"card-image\">\n          <img style=\"margin-top: 20%;\" src=\"{{ bar.image_url }}\">\n        </div>\n        <div class=\"card-stacked\">\n          <div class=\"card-content\">\n            <p><strong>{{ bar.name }}\n                <span style=\"float: right;\">\n                  <button *ngIf=\"bar.isGoing\"\n                          class=\"waves-effect waves-light btn btn-small red accent-2\"\n                          (click)=\"deleteUser( i, bar.id )\"\n                          >Cancel</button>\n                  <button class=\"waves-effect waves-light btn btn-small blue accent-2\" \n                          [disabled]=\"!user || bar.isGoing\"\n                          (click)=\"addUser( i, bar.id )\">\n                          {{ bar.whosGoing.length}} Going\n                  </button>                  \n                </span>\n              </strong></p>\n            <br>\n            <p>{{ bar.snippet_text }}</p>\n          </div>\n        </div>\n      </div>\n    </div>\n\n      <div class=\"card\" style=\"width: 60%; margin-right: 20px;\">\n        <div id=\"gMap\" style=\"width: 100%; height:100%; margin: auto;\"></div>\n      </div>\n    </div>\n\n\n  </div>\n\n\n"
 
 /***/ }),
 
@@ -322,7 +328,7 @@ var BarsComponent = (function () {
         var cityName = localStorage.getItem('cityName');
         if (!cityName)
             return this.router.navigate(['/']);
-        this.dataService.fetchData("/bars/" + cityName)
+        this.dataService.fetch('get', "/bars/" + cityName)
             .do(function (res) {
             if (_this.auth.user) {
                 res['data'].businesses.forEach(function (bar) {
@@ -337,23 +343,44 @@ var BarsComponent = (function () {
         });
     };
     BarsComponent.prototype.getMap = function () {
-        var map = new __WEBPACK_IMPORTED_MODULE_4_gmaps__({
+        this.map = new __WEBPACK_IMPORTED_MODULE_4_gmaps__({
             el: '#gMap',
             lat: this.yelpData.region.center.latitude,
             lng: this.yelpData.region.center.longitude
         });
-        this.getMarkers(map);
+        this.getMarkers(this.map);
     };
     BarsComponent.prototype.getMarkers = function (map) {
+        var _this = this;
         this.yelpData.businesses.forEach(function (bar) {
-            map.addMarker({
-                lat: bar.location.coordinate.latitude,
-                lng: bar.location.coordinate.longitude,
-                title: bar.name,
-                infoWindow: {
-                    content: "<p><strong>" + bar.name + "<strong></p>\n                    <p>" + bar.whosGoing.length + " Going</p>"
-                }
-            });
+            _this.setMarker(map, bar);
+        });
+    };
+    BarsComponent.prototype.setMarker = function (map, bar) {
+        map.addMarker({
+            lat: bar.location.coordinate.latitude,
+            lng: bar.location.coordinate.longitude,
+            title: bar.name,
+            infoWindow: {
+                content: "<p><strong>" + bar.name + "<strong></p>\n                  <p>" + bar.whosGoing.length + " Going</p>"
+            }
+        });
+    };
+    BarsComponent.prototype.addUser = function (index, barId) {
+        var _this = this;
+        return this.dataService
+            .fetch('post', '/bars/' + barId)
+            .subscribe(function (res) {
+            _this.yelpData.businesses[index].whosGoing.push(_this.auth.user._id);
+            _this.map.addMarker(_this.map, _this.yelpData.businesses[index]);
+        });
+    };
+    BarsComponent.prototype.deleteUser = function (index, barId) {
+        var _this = this;
+        return this.dataService.deleteUser(barId)
+            .subscribe(function (res) {
+            _this.yelpData.businesses.splice(index, 1);
+            _this.map.addMarker(_this.map, _this.yelpData.businesses[index]);
         });
     };
     return BarsComponent;
@@ -530,7 +557,7 @@ var NavbarComponent = (function () {
     ;
     NavbarComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.fetchData('/user')
+        this.dataService.fetch('get', '/user')
             .subscribe(function (res) {
             _this.user = true;
             _this.auth.user = res;

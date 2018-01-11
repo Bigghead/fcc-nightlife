@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
 
-    this.dataService.fetchData( '/user' )
+    this.dataService.fetch( 'get', '/user' )
         .subscribe( res => {
             this.user = true;
             this.auth.user = res;

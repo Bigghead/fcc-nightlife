@@ -14,8 +14,17 @@ export class DataService {
     url: string = 'http://localhost:8000'
 
 
-    fetchData( url ){
-        return this.http.get( this.url + url )
-                   .map( res => res.json() )
+    fetch( method, url, body = {} ){
+
+        let checkAction = method === 'get' 
+                        ? this.http.get( url ).map( res => res.json() )
+                        : this.http.post( url, body )
+        return checkAction
+                
+    }
+
+
+    deleteUser( url ){
+        return this.http.delete( '/bars/' + url )
     }
 }
