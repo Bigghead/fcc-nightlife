@@ -20,6 +20,7 @@ export class BarsComponent implements OnInit {
   bars: any;
   yelpData: any;
   user = this.auth.isLoggedIn();
+  labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   map;
 
   ngOnInit() {
@@ -46,35 +47,35 @@ export class BarsComponent implements OnInit {
         .subscribe( res => {
           this.yelpData = res['data'];
           this.bars = res['bars'];
-          setTimeout( () => this.getMap(), 100 );
+          setTimeout( () => this.getMap( ), 100 );
         } )
   }
 
 
-  getMap(){
-    this.map = new GMaps( {
+  getMap( ){
+    const map = new GMaps( {
       el: '#gMap',
       lat: this.yelpData.region.center.latitude,
       lng: this.yelpData.region.center.longitude
     } );
-
-    this.getMarkers( this.map );
+    this.getMarkers( map );
   }
 
 
   getMarkers( map ){
 
-    this.yelpData.businesses.forEach( bar => {
-        this.setMarker( map, bar );
+    this.yelpData.businesses.forEach( ( bar, index ) => {
+        this.setMarker( map, bar, index );
     } )
   }
 
 
-  setMarker( map, bar ){
+  setMarker( map, bar, index ){
     map.addMarker( {
       lat: bar.location.coordinate.latitude,
       lng: bar.location.coordinate.longitude,
       title: bar.name,
+      label: this.labels[index],
       infoWindow: {
         content: `<p><strong>${bar.name}<strong></p>
                   <p>${bar.whosGoing.length} Going</p>`
@@ -89,7 +90,8 @@ export class BarsComponent implements OnInit {
                .subscribe( 
                  res => {
                     this.yelpData.businesses[index].whosGoing.push( this.auth.user._id );
-                    this.map.addMarker( this.map, this.yelpData.businesses[index])
+                    this.yelpData.businesses[index].isGoing = true;                    
+                    this.getMap( );
                     
                  }
                )
@@ -99,9 +101,12 @@ export class BarsComponent implements OnInit {
   deleteUser( index, barId ){
     return this.dataService.deleteUser( barId )
                .subscribe( res => {
-                 this.yelpData.businesses.splice( index, 1 );
-                 this.map.addMarker( this.map, this.yelpData.businesses[index])
-               })
+                   let userId = this.auth.user._id;
+                   let currentBar = this.yelpData.businesses[index];
+                   currentBar.whosGoing.splice( currentBar.whosGoing.indexOf( userId ), 1 );
+                   currentBar.isGoing = false;
+                   this.getMap( );
+                } )
   }
 
 }
